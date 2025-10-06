@@ -1,0 +1,391 @@
+{
+  "metadata": {
+    "root": {
+      "title": "MyFlowCheck | Quality Management that flows",
+      "description": "MyFlowCheck is a modern QMS for managing documents, audits, and corrective actions in one place. Ideal for teams that need clarity, compliance, and continuous improvement."
+    }
+  },
+  "landing": {
+    "metadata_title": "MyFlowCheck | Quality Management that flows",
+    "hero": {
+      "title_01": "Quality",
+      "title_02": "that actually",
+      "title_03": "flows",
+      "subtitle_01": "Document control, audits, and CAPA in one place.",
+      "subtitle_02": "Built for teams that value clarity and compliance.",
+      "kpi_0": "ISO-ready structure",
+      "kpi_1": "Audit trails in seconds",
+      "kpi_2": "Real-time dashboards"
+    },
+    "how": {
+      "title": "How it works",
+      "subtitle": "Set up in minutes, scale with your processes.",
+      "steps": [
+        {
+          "number": "1",
+          "title": "Configure",
+          "description": "Define areas, roles and permissions."
+        },
+        {
+          "number": "2",
+          "title": "Control",
+          "description": "Manage documents, audits and nonconformities."
+        },
+        {
+          "number": "3",
+          "title": "Improve",
+          "description": "Automate CAPA and track KPIs."
+        }
+      ]
+    },
+    "docs": {
+      "title": "Document Control",
+      "subtitle": "Versioning, approvals and traceability without chaos.",
+      "features": [
+        "Version history and approvals",
+        "Templates and review workflows",
+        "Granular permissions by role/area",
+        "Change logs and audit-ready exports"
+      ]
+    },
+    "capa": {
+      "title": "Audits & CAPA",
+      "subtitle": "Find, fix and prevent issues—fast.",
+      "description": "Create findings from audits, assign owners, set deadlines and automate corrective and preventive actions.",
+      "highlights": [
+        "Audit checklists",
+        "Root cause analysis",
+        "Action plans with SLAs",
+        "Evidence attachments"
+      ]
+    },
+    "dash": {
+      "title": "Dashboards & Compliance",
+      "subtitle": "See the big picture—and the bottlenecks.",
+      "description": "KPIs that matter: overdue actions, approval times, nonconformities by area, and more.",
+      "benefits": {
+        "title": "Why teams choose MyFlowCheck",
+        "0": "Clarity for audits and inspections",
+        "1": "Ownership and accountability",
+        "2": "Continuous improvement visible to everyone"
+      }
+    }
+  },
+  "auth": {
+    "register": {
+      "registerButton": "Create account",
+      "title_01": "Create your account",
+      "description_01": "Get started now! Sign up in seconds.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "e.g. user@company.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Choose a strong password",
+      "passwordDescription": "(At least 8 characters, with letters and numbers)",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter password",
+      "haveAccount": "Already have an account?",
+      "login": "Log in",
+      "acceptTerms": { "first": "I accept the ", "second": " and the " },
+      "termsAndConditions": "Terms and Conditions",
+      "privacyPolicies": "Privacy Policies",
+      "toast": {
+        "success": "Account created successfully!",
+        "error": "An error occurred during registration."
+      },
+      "alreadyHaveStore": "You already belong to a workspace. ",
+      "login_account": "Log in",
+      "loading": "Loading..."
+    },
+    "login": {
+      "title_01": "Access your account",
+      "description_01": "Enter your credentials to log in and manage your QMS.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "e.g. user@company.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot your password?",
+      "recover": "Recover",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create account",
+      "alreadyAccount": "Already have an account?",
+      "loginButton": "Log in",
+      "logout": "Log out",
+      "alternativeLogin": "Or continue with Google",
+      "googleLogin": "Log in with Google",
+      "googleLoginSuccess": "Successfully logged in with Google",
+      "googleLoginError": "Error logging in with Google",
+      "toast": {
+        "success": "Logged in successfully!",
+        "error": "An error occurred while logging in."
+      },
+      "loading": "Loading..."
+    },
+    "forgot-password": {
+      "title": "Recover password",
+      "description": "Enter your email to receive a recovery code.",
+      "emailPlaceholder": "Email",
+      "recoverButton": "Send code",
+      "recoverButtonSent": "Code sent",
+      "toast": {
+        "success": "Check your inbox. We've sent a recovery code.",
+        "error": "An error occurred while sending the recovery code."
+      }
+    },
+    "reset-password": {
+      "title": "Reset password",
+      "description": "Enter a new password that meets the requirements.",
+      "passwordLabel": "New password",
+      "passwordPlaceholder": "Choose a strong password",
+      "passwordDescription": "(At least 8 characters, with letters and numbers)",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter password",
+      "recoverButton": "Update password",
+      "toast": {
+        "success": "Your password has been updated.",
+        "error": "An error occurred while resetting your password."
+      }
+    }
+  },
+  "support": {
+    "metadata_title": "Support Center | MyFlowCheck",
+    "title": "Support Center",
+    "description": "Send us your comments, suggestions, or problems. Your opinion is important to us.",
+    "subjectPlaceholder": "Subject",
+    "descriptionPlaceholder": "Describe your query...",
+    "sendButton": "Send Message"
+  },
+  "plans": {
+    "metadata_title": "Plans | MyFlowCheck",
+    "title": "Choose your MyFlowCheck plan",
+    "description": "Pick the plan that best fits your needs. Start free and upgrade as you grow.",
+    "planPeriodMonth": "/month",
+    "planPeriodYear": "/year",
+
+    "monthly": {
+      "label": "Most Popular",
+      "title": "Monthly Plan",
+      "feature1": "Full access to all features",
+      "feature2": "Cancel anytime"
+    },
+    "yearly": {
+      "label": "Best Value",
+      "title": "Yearly Plan",
+      "feature1": "Save up to 20% compared to monthly",
+      "feature2": "Priority support included"
+    },
+
+    "subscribe-button": {
+      "subscribeButton": "Subscribe",
+      "subscribedButton": "Subscribed",
+      "comingSoon": "Coming Soon..."
+    }
+  },
+  "privacy-policies": {
+    "title": "Privacy Policies",
+    "policies": [
+      {
+        "title": "1. Data Controller",
+        "description": "MyFlowCheck SRL\n* Address: Calle A. Quijarro 7, Cochabamba, Bolivia\n* Email: MyFlowCheck@gmail.com"
+      },
+      {
+        "title": "2. Personal Data We Collect",
+        "description": "We collect the following types of information:\n* Registration data: Name, email, phone, and password.\n* Billing data: Tax identification number (NIT), tax address.\n* Usage data: Information about how you interact with our platform.\n* Optional data: That you choose to provide us, such as contact references."
+      },
+      {
+        "title": "3. Purposes of Data Processing",
+        "description": "Your personal data will be used to:\n* Provide the services contracted on our platform.\n* Manage billing and compliance with legal obligations.\n* Improve your user experience through personalization.\n* Send information about promotions, always with your prior consent."
+      },
+      {
+        "title": "4. Legal Basis for Data Processing",
+        "description": "The processing of your personal data is carried out based on:\n* Express consent: Granted when registering or using our service.\n* Compliance with legal obligations: In compliance with current Bolivian regulations.\n* Execution of a contract: Necessary to provide our services."
+      },
+      {
+        "title": "5. Data Sharing",
+        "description": "We may share your personal data with third parties, such as:\n* Technology and cloud storage service providers.\n* Government entities when required by law.\n* In all cases, we guarantee that these third parties comply with high data protection standards."
+      },
+      {
+        "title": "6. International Data Transfers",
+        "description": "Although our main base is in Bolivia, some providers may be located in other countries. When international data transfers are made, we guarantee that adequate protection measures are implemented in accordance with applicable regulations."
+      },
+      {
+        "title": "7. Data Security",
+        "description": "We implement technical and organizational measures to protect your data against unauthorized access, loss, or improper disclosure. However, no security measure is completely infallible, so we recommend protecting your password and not sharing sensitive information unnecessarily."
+      },
+      {
+        "title": "8. Your Rights",
+        "description": "In accordance with Bolivian legislation, you have the right to:\n* Access: Request information about the data we store about you.\n* Rectification: Correct incorrect or incomplete data.\n* Cancellation: Request the deletion of your data, except when there is a legal obligation to retain it.\n* Opposition: Reject the processing of your data for certain purposes.\n* You can exercise these rights by contacting us at MyFlowCheck@gmail.com, indicating your full name, identity document, and the right you wish to exercise."
+      },
+      {
+        "title": "9. Data Retention",
+        "description": "We retain your personal data only for the time necessary to fulfill the described purposes, or as required by current legislation."
+      },
+      {
+        "title": "10. Modifications to this Policy",
+        "description": "We reserve the right to update this privacy policy at any time. We will notify any changes through our platform or by email.\nThank you for trusting MyFlowCheck. Your privacy is essential to us."
+      }
+    ]
+  },
+  "terms-and-conditions": {
+    "title": "Terms and Conditions",
+    "conditions": [
+      {
+        "title": "Conditions of Use",
+        "description": "The following content cannot be published on the MyFlowCheck web platform.\n\n* The publication of any illegal material according to current laws in the Plurinational State of Bolivia is not allowed.\n* The dissemination of nudity or pornographic material on this website is strictly prohibited.\n* The exchange, promotion, or sale of illegal narcotic substances is strictly prohibited.\n* No illegal explicit content will be tolerated, including but not limited to incitement to violence, hatred, harassment, or discrimination.\n* It is not permitted to offer or request any type of firearms or bladed weapons through this web service.\n* All users must respect copyright and not upload, share, or distribute digital content that is not authorized by its copyright holders.\n* It is strictly prohibited to use this web service with fraudulent intentions, including, but not limited to, phishing, identity fraud, or any other type of deceptive activity.\n* In addition to the restrictions mentioned above, users must comply with all applicable local, national, and international laws and regulations while using this web service.\n* Failure to comply with any of these conditions of use may result in the suspension or deletion of your account and the taking of legal action as appropriate.\n* We reserve the right to modify these conditions of use at any time and recommend reviewing them periodically to be aware of any changes."
+      },
+      {
+        "title": "Prohibitions",
+        "description": "The following prohibitions apply to the use of the platform in MyFlowCheck.\n\n* Prohibition of Fraud: The use of Mercagi web stores for any fraudulent activity on the internet is strictly prohibited. Affiliates must operate their stores with complete transparency and honesty.\n* Affiliate Responsibility: Affiliates are fully responsible for any damage or harm caused by their web store. Mercagi disclaims any responsibility arising from the actions or content of affiliated stores.\n* Prohibition of Sale of Copyrighted Courses: The use of stores to resell copyrighted online courses is not permitted, unless express authorization is obtained for it.\n* Sale of Illegal Products: The sale of stolen or contraband items is prohibited. Mercagi reserves the right to take legal action against any affiliate who engages in these practices.\n* Consequences of Complaints and Claims: In case of receiving multiple verified complaints or claims about fraud or illegal activities in a store, Mercagi reserves the right to delete the affiliate's store without possibility of reactivation."
+      }
+    ]
+  },
+  "who-we-are": {
+    "metadata_title": "Who We Are? | MyFlowCheck",
+    "history": {
+      "title": "Our History",
+      "paragraph1": "MyFlowCheck was born out of the need for an accessible, simple, and affordable QMS (Quality Management System) that helps businesses improve their processes and entrepreneurs digitize their operations with ease.",
+      "paragraph2": "It was created by two young visionaries: a Bolivian and a Belgian, who joined forces after observing how challenging it was for many businesses to implement effective quality systems and manage their growth digitally.",
+      "paragraph3": "The name \"MyFlowCheck\" reflects the agility, accessibility, and simplicity with which any organization can professionalize its processes and maintain control in one place."
+    },
+    "misionTitle": "MISSION",
+    "mision": "To deliver an easy-to-use and affordable QMS platform that helps businesses organize their processes, ensure compliance, and scale sustainably, all in one place.",
+    "visionTitle": "VISION",
+    "vision": "To become a global reference for accessible and practical QMS solutions, empowering companies of all sizes to digitize, optimize, and continuously improve their operations."
+  },
+  "app": {
+    "settings": {
+      "profile": {
+        "name": { "title": "Name" },
+        "email": { "title": "Email" },
+        "password": { "title": "Password" }
+      },
+      "general": {
+        "api": {
+          "title": "API Token",
+          "subtitle": "Use it to integrate MyFlowCheck with other tools."
+        },
+        "preferences": { "title": "Preferences" }
+      }
+    },
+    "projects": {
+      "new": { "title": "Create project" },
+      "detail": {
+        "modules": "Modules",
+        "features": "Features",
+        "updated": "Last update:"
+      }
+    },
+    "sidebar": {
+      "menuAdmin": "Admin Menu",
+      "home": "Home",
+      "projectSection": "Projects",
+      "settingSection": "Settings",
+      "logout": "Logout",
+      "lightMode": "Light Mode",
+      "darkMode": "Dark Mode"
+    }
+  },
+
+  "ui": {
+    "i18n": {
+      "langSelector": {
+        "en": "English",
+        "es": "Spanish",
+        "pt": "Portuguese",
+        "fr": "French",
+        "nl": "Dutch"
+      }
+    },
+    "dialog": {
+      "delete": {
+        "cancel": "Cancel",
+        "delete": "Delete"
+      },
+      "back-button": {
+        "label": "Back"
+      }
+    },
+    "form": {
+      "phone-number": {
+        "label": "Phone Number"
+      },
+      "upload-image": {
+        "uploadTitle": "Click to upload",
+        "uploadSubtitle": "or drag and drop",
+        "uploadTypes": "JPG, JPEG, PNG less than 3MB",
+        "fileTooLarge": "The file is too large. Maximum 3MB allowed.",
+        "invalidFileType": "Invalid file type. Only images are allowed"
+      }
+    },
+    "navbar": {
+      "mobile-menu-drawer": {
+        "menu": "Menu",
+        "close": "Close"
+      },
+      "landing": {
+        "whoWeAre": "Who we are?",
+        "plans": "Plans",
+        "support": "Support"
+      },
+      "profile-menu-client": {
+        "logout": "Logout"
+      },
+      "profile-menu": {
+        "logout": "Logout"
+      }
+    },
+    "footer": {
+      "privacy": "Privacy Policies",
+      "terms": "Terms and Conditions",
+      "connect": "Connect with us",
+      "rights": "© 2025 MyFlowCheck. All rights reserved."
+    },
+    "pricing-card": {
+      "planPeriod": "/month",
+      "subscribeButton": "Contract",
+      "free": "Free"
+    }
+  },
+  "error-pages": {
+    "error": {
+      "title": "Error",
+      "description": "Sorry, an unexpected error has occurred. Please try again later.",
+      "button": "Return to the main page"
+    },
+    "error-unauthorized": {
+      "title": "Access Restricted",
+      "description": "Sorry, you don't have access. Please try logging in."
+    },
+    "not-found": {
+      "title": "Not Found",
+      "description": "The page you are looking for does not exist or has been moved.",
+      "button": "Go to Home"
+    }
+  },
+  "lib": {
+    "actions": {
+      "invalidCredentials": "Incorrect email or password.",
+      "somethingWentWrong": "Something went wrong. Please try again later.",
+      "emailAlreadyExists": "The email is already registered.",
+      "invalidEmail": "This email is not registered.",
+      "wrongCurrentPassword": "The current password is incorrect."
+    },
+    "data": {
+      "loadCategoryVariantsError": "Error loading category variants"
+    },
+    "validation-schemas": {
+      "requiredField": "The field is required",
+      "invalidEmail": "Enter a valid email.",
+      "invalidPhoneNumber": {
+        "required": "The phone number is required.",
+        "invalid": "Invalid phone number."
+      },
+      "invalidPassword": {
+        "noNumbers": "Enter at least one number.",
+        "noLetters": "Enter at least one letter.",
+        "lessChars": "Enter at least 8 characters.",
+        "notMatch": "Passwords do not match."
+      },
+      "invalidLength": "The field must have at least 3 letters."
+    }
+  }
+}
