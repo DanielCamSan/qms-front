@@ -1,41 +1,120 @@
- This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Quality in every step
+## AUTHENTICATION
 
-## Getting Started    
-   §   
-First, run the installation command:      
-```bash h
-npm install --force 
-```   
-second, run the development server:  
-    
-```bash  
-npm run dev  
-# or  .
-yarn dev 
-# or
-pnpm dev 
-# or
-bun dev
-``` 
+POST /auth/register — Crea usuario developer + devuelve tokens. · Public · Body: RegisterDto { email, password, name? }
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+POST /auth/login — Login (estrategia local) + tokens. · Public · Body: { email, password }
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+GET /auth/me — Perfil mínimo del token. · JWT requerido
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel
+# POST /auth/refresh — Rota refresh y devuelve access+refresh. · JWT refresh requerido · Header: Authorization: Bearer <refresh>
 
-## Learn More
+POST /auth/logout — Revoca todos los refresh del usuario. · JWT requerido
 
-To learn more about Next.js, take a look at the following resources:
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+POST /auth/register-client — (si lo mantienes) Crea user cliente + tokens. · Public · Body: RegisterClientDto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome.
+## USERS
 
-## Deploy on Vercel
+GET /users/:id — Perfil por id (incluye githubIdentity si lo tienes así). · JWT
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+GET /users/me/profile — Perfil completo del usuario actual. · JWT
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+PATCH /users/me — Actualiza datos básicos (nombre). · JWT · Body: UpdateUserDto
+
+## PROJECTS
+
+POST /projects — Crea proyecto (owner = usuario) y lo agrega como OWNER. · JWT · Body: CreateProjectDto { name, description?, status?, visibility?, repositoryUrl? }
+
+GET /projects/mine — Lista proyectos donde soy owner o miembro. · JWT · Query: PaginationDto { page?, limit?, sort?, q? }
+
+GET /projects/:id — Detalle (owner/miembro o público). · JWT
+
+PATCH /projects/:id — Actualiza (solo owner). · JWT · Body: UpdateProjectDto
+
+DELETE /projects/:id — Elimina (solo owner). · JWT
+
+POST /projects/:id/members — Agrega/actualiza miembro (solo owner). · JWT · Body: AddMemberDto { userId, role? }
+
+# PATCH /projects/:id/members/:userId — Cambia rol de miembro (solo owner). · JWT · Body: { role }
+
+DELETE /projects/:id/members/:userId — Quita miembro (solo owner). · JWT
+
+GET /projects/:id/members — Lista de miembros (convenience). · JWT
+
+GET /projects/:id/github/issues — Issues del repo vinculado. · JWT · Query: ListIssuesDto { state, labels?, since?, assignee?, per_page?, page? }
+
+GET /projects/:id/github/pulls — Pull Requests del repo vinculado. · JWT · Query: ListPullsDto { state, sort?, direction?, per_page?, page? }
+
+# POST /projects/:id/github/credential — Sube/actualiza credencial GitHub del proyecto. · JWT · Body: { accessToken, refreshToken?, tokenType?, scopes?, expiresAt? }
+
+# DELETE /projects/:id/github/credential — Borra credencial de proyecto. · JWT
+
+GitHub (cuenta del usuario)
+
+GET /github/whoami — Whoami usando token global (o ninguno). · Public
+
+POST /github/me/token — Conecta/actualiza token GitHub del usuario. · JWT · Body: { token }
+
+DELETE /github/me/token — Desconecta token del usuario. · JWT
+
+GET /github/me/whoami — Estado de conexión GitHub del usuario actual. · JWT
+
+# POST /projects/:id/token - Guarda/actualiza token del proyecto (requiere ser owner del proyecto)
+
+# DELETE /projects/:id/token - Elimina el token del proyecto (owner-only)
+
+## Modules
+
+POST /projects/:projectId/modules — Crea módulo (OWNER/MAINTAINER). · JWT · Body: CreateModuleDto { name, description?, parentModuleId?, isRoot? }
+
+GET /projects/:projectId/modules — Lista módulos (paginado) del proyecto. · JWT · Query: PaginationDto + parent (uuid | null | omitido)
+
+GET /modules/:moduleId — Detalle de módulo (hijos, features, versiones resumidas). · JWT
+
+PATCH /modules/:moduleId — Actualiza módulo (OWNER/MAINTAINER). · JWT · Body: UpdateModuleDto
+
+DELETE /modules/:moduleId - cascade (opcional, boolean) → Elimina también submódulos y features. force(opcional, boolean) → Permite borrar aunque haya publicaciones.
+
+GET /modules/:moduleId/versions — Lista versiones del módulo (desc). · JWT
+
+POST /modules/:moduleId/snapshot — Crea snapshot (dedupe por contentHash). · JWT · Body: SnapshotModuleDto { changelog? }
+
+POST /modules/:moduleId/rollback/:versionNumber — Restaura estado y crea snapshot marcado rollback. · JWT
+
+POST /modules/:moduleId/publish — Publica una versión del módulo. · JWT Body: PublishDto {versionNumber}
+
+GET /modules/:moduleId/published-tree — Devuelve el árbol publicado resolviendo childrenPins/featurePins. · JWT
+
+# PATCH /modules/:moduleId/move — Mover/reordenar módulo (cambia parentModuleId y/o sortOrder). · JWT · Body: { parentModuleId?: uuid|null, sortOrder?: number }
+
+## Features
+
+POST /modules/:moduleId/features — Crea feature dentro del módulo. · JWT · Body: CreateFeatureDto { name, description?, priority?, status? }
+
+GET /modules/:moduleId/features — Lista features del módulo (paginado). · JWT · Query: PaginationDto
+
+GET /features/:featureId — Detalle de feature (versions, issue, publicada). · JWT
+
+PATCH /features/:featureId — Actualiza feature. · JWT · Body: UpdateFeatureDto
+
+DELETE /features/:featureId -Query params: force (opcional, boolean) → Si está publicada, obliga a eliminar.
+
+GET /features/:featureId/versions — Lista versiones de la feature. · JWT
+
+POST /features/:featureId/snapshot — Snapshot (dedupe por contentHash). · JWT · Body: SnapshotFeatureDto { changelog? }
+
+POST /features/:featureId/rollback/:versionNumber — Restaura y registra snapshot rollback. · JWT
+
+POST /features/:featureId/publish/:versionNumber — Publica versión de la feature. · JWT
+
+Features ↔ Issue (GitHub)
+
+POST /features/:featureId/issue — Linkea/crea IssueElement con issue/PR/commits. · JWT · Body: LinkIssueElementDto { githubIssueUrl?, pullRequestUrl?, commitHashes?, reviewStatus? }
+
+PATCH /issue/:issueId — Actualiza issue (URLs, commits, estado). · JWT · Body: LinkIssueElementDto
+
+DELETE /issue/:issueId — Desvincula issue. · JWT
+
+POST /issue/:issueId/sync — Sincroniza estado desde GitHub (PR merged ⇒ APPROVED; agrega commits del PR). · JWT · Throttle
+
+POST /issue/:issueId/sync-commits — Sincroniza solo commits del PR. · JWT · Body: SyncCommitsDto { append?=true, limit? } · Throttle

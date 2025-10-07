@@ -1,4 +1,4 @@
-// src/app/app/projects/new/page.tsx (Server)
+// src/app/app/projects/new/page.tsx
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { RoutesEnum } from "@/lib/utils";

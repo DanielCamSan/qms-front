@@ -43,7 +43,7 @@ export default function AppSidebarClient({
     return (
       <div className="mt-auto space-y-2 px-2">
         {/* Theme */}
-        <button
+        {/* <button
           onClick={toggleTheme}
           className="w-full flex items-center justify-between
                      text-sm px-2 py-2 rounded-md
@@ -52,7 +52,7 @@ export default function AppSidebarClient({
         >
           <span>{dark ? t('lightMode') : t('darkMode')}</span>
           {dark ? <Sun size={16} /> : <Moon size={16} />}
-        </button>
+        </button> */}
 
         {/* Logout: no pasamos props al componente */}
         <div className="w-full">

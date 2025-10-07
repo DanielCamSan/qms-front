@@ -1,4 +1,6 @@
 import { FeaturePriority, FeatureStatus, ISODateString } from "../definitions";
+import { FeatureVersion } from "./feature-version";
+import { IssueElement } from "./issue-element";
 
 export type Feature = {
   id: string;
@@ -11,4 +13,13 @@ export type Feature = {
   updatedAt: ISODateString;
   lastModifiedById: string | null;
   publishedVersionId: string | null;
+  versions?: FeatureVersion[];
+  issueElements?: IssueElement[];
+  publishedVersion?: { id: string; versionNumber: number } | null;
+};
+export type CreateFeatureDto = {
+  name: string;
+  description?: string | null;
+  priority?: FeaturePriority; // default MEDIUM en back
+  status?: FeatureStatus;     // default PENDING en back
 };

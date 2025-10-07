@@ -1,21 +1,44 @@
-import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
+// src/app/app/projects/[projectId]/page.tsx
+import { getTranslations } from "next-intl/server";
+import { redirect, notFound } from "next/navigation";
+import Link from "next/link";
+import { getSession } from "@/lib/session";
+import { RoutesEnum } from "@/lib/utils";
+import { fetchProjectById, fetchProjectModules } from "@/lib/data";
+import type { Project } from "@/lib/model-definitions/project";
+import type { Module } from "@/lib/model-definitions/module";
+import { ProjectStatus } from "@/lib/definitions";
+import ProjectDetailClient from "@/ui/components/projects/project-detail.client";
 
 type Params = { projectId: string };
 
 export default async function ProjectDetailPage({ params }: { params: Params }) {
-  const t = await getTranslations('app.projects.detail');
+  const session = await getSession();
+  if (!session?.token) redirect(RoutesEnum.LOGIN);
+
+  const t = await getTranslations("app.projects.detail");
   const { projectId } = params;
 
-  // TODO: fetch real project (modules/features)
-  const project = {
-    id: projectId,
-    name: 'E-commerce Platform',
-    status: 'active',
-    updatedAt: '2025-01-10',
-    modules: [{ id: 'checkout', name: 'Checkout' }, { id: 'catalog', name: 'Catalog' }],
-    features: [{ id: '3ds2', name: '3DS v2' }, { id: 'audit-log', name: 'Audit Log' }],
-  };
+  // fetch project (detalle)
+  let project: Project | null = null;
+  try {
+    project = await fetchProjectById(session.token, projectId);
+  } catch (err) {
+    // 404 del backend → notFound()
+    notFound();
+  }
+  if (!project) notFound();
+
+  // fetch módulos raíz del proyecto (parent=null)
+  const modulesResult = await fetchProjectModules(session.token, projectId, {
+    parent: null,
+    sort: "sortOrder",
+    limit: 100,
+  });
+
+  const modules: Module[] = Array.isArray(modulesResult)
+    ? modulesResult
+    : modulesResult.items ?? [];
 
   return (
     <div className="grid gap-6">
@@ -23,39 +46,39 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
         <div>
           <h1 className="text-2xl font-bold">{project.name}</h1>
           <p className="text-sm text-[color:var(--color-muted-fg)]">
-            {t('updated')} {project.updatedAt}
+            {t("updated")} {new Date(project.updatedAt).toLocaleDateString()}
           </p>
         </div>
-        <span className="rounded-full border px-2 py-0.5 text-xs bg-[color:var(--color-cream-100)]">
-          {project.status}
-        </span>
+        <ProjectStatusBadge status={project.status} />
       </header>
 
-      <section className="rounded-xl border bg-white p-4">
-        <h2 className="font-semibold mb-3">{t('modules')}</h2>
-        <ul className="list-disc list-inside">
-          {project.modules.map((m) => (
-            <li key={m.id}>
-              <Link href={`/app/projects/${project.id}/modules/${m.id}`} className="hover:underline">
-                {m.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Cliente: render modular y acciones */}
+      <ProjectDetailClient project={project} rootModules={modules} />
 
-      <section className="rounded-xl border bg-white p-4">
-        <h2 className="font-semibold mb-3">{t('features')}</h2>
-        <ul className="list-disc list-inside">
-          {project.features.map((f) => (
-            <li key={f.id}>
-              <Link href={`/app/projects/${project.id}/features/${f.id}`} className="hover:underline">
-                {f.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* CTA: crear módulo */}
+      <div>
+        <Link
+          href={`/app/projects/${project.id}/modules/new`}
+          className="inline-flex items-center rounded-lg border px-3 py-2 text-sm hover:bg-muted"
+        >
+         Add module
+        </Link>
+      </div>
     </div>
+  );
+}
+
+function ProjectStatusBadge({ status }: { status: Project["status"] }) {
+  const tone =
+    status === ProjectStatus.ACTIVE
+      ? "bg-green-100 text-green-800 border-green-200"
+      : status === ProjectStatus.FINISHED
+      ? "bg-blue-100 text-blue-800 border-blue-200"
+      : "bg-yellow-100 text-yellow-800 border-yellow-200"; // ON_HOLD
+
+  return (
+    <span className={`rounded-full border px-2 py-0.5 text-xs ${tone}`}>
+      {status}
+    </span>
   );
 }
