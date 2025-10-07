@@ -198,26 +198,281 @@
     "vision": "Een wereldwijde referentie worden voor toegankelijke en praktische QMS-oplossingen, waarmee bedrijven van elke omvang hun activiteiten kunnen digitaliseren, optimaliseren en continu verbeteren."
   },
   "app": {
+    "common": {
+      "create": "Aanmaken",
+      "save": "Opslaan",
+      "projectStatus": {
+        "ACTIVE": "Actief",
+        "ON_HOLD": "In de wacht",
+        "FINISHED": "Afgerond"
+      },
+      "visibility": {
+        "PRIVATE": "Privé",
+        "PUBLIC": "Openbaar"
+      },
+      "featureStatus": {
+        "PENDING": "In afwachting",
+        "IN_PROGRESS": "Bezig",
+        "DONE": "Afgerond"
+      },
+      "featurePriority": {
+        "LOW": "Laag",
+        "MEDIUM": "Gemiddeld",
+        "HIGH": "Hoog"
+      }
+    },
     "settings": {
+      "nav": {
+        "profile": "Profiel",
+        "general": "Algemeen"
+      },
       "profile": {
+        "pageTitle": "Profiel",
+        "title": "Persoonlijke gegevens",
+        "save": "Wijzigingen opslaan",
+        "hint": "Deze wijzigingen zijn binnenkort beschikbaar.",
         "name": { "title": "Naam" },
         "email": { "title": "E-mail" },
-        "password": { "title": "Wachtwoord" }
+        "password": {
+          "title": "Wachtwoord",
+          "current": "Huidig wachtwoord",
+          "new": "Nieuw wachtwoord",
+          "confirm": "Bevestig wachtwoord",
+          "rules": "Minstens 8 tekens, met letters en cijfers",
+          "save": "Wachtwoord bijwerken",
+          "hint": "Het bijwerken van het wachtwoord wordt binnenkort ingeschakeld."
+        }
       },
       "general": {
+        "pageTitle": "Algemeen",
         "api": {
           "title": "API-token",
-          "subtitle": "Gebruik dit om MyFlowCheck te integreren met andere tools."
+          "subtitle": "Gebruik dit om MyFlowCheck te koppelen met andere tools.",
+          "placeholder": "Genereer je API-token vanuit de backend."
         },
-        "preferences": { "title": "Voorkeuren" }
+        "copy": "Kopiëren",
+        "copySuccess": "Gekopieerd!",
+        "preferences": {
+          "title": "Voorkeuren",
+          "darkMode": {
+            "label": "Donkere modus",
+            "desc": "Gebruik het donkere thema in de applicatie"
+          }
+        },
+        "alerts": {
+          "success": "Voorkeuren bijgewerkt.",
+          "error": "Voorkeuren konden niet worden bijgewerkt."
+        },
+        "save": "Wijzigingen opslaan",
+        "hint": "Je voorkeuren worden onmiddellijk opgeslagen."
       }
     },
     "projects": {
-      "new": { "title": "Project aanmaken" },
+      "list": {
+        "title": "Projecten",
+        "subtitle": "Volg je initiatieven en bijbehorende modules.",
+        "create": "Nieuw project",
+        "empty": {
+          "title": "Geen projecten gevonden.",
+          "cta": "Maak je eerste project aan"
+        },
+        "updatedAt": "Bijgewerkt op {date}",
+        "pagination": {
+          "aria": "Projectpaginering",
+          "previous": "Vorige",
+          "next": "Volgende"
+        }
+      },
+      "errors": {
+        "title": "Projecten konden niet worden geladen",
+        "description": "Ververs de pagina of probeer het later opnieuw.",
+        "retry": "Opnieuw proberen"
+      },
       "detail": {
-        "modules": "Modules",
-        "features": "Functies",
-        "updated": "Laatste update:"
+        "updated": "Laatste update: {date}",
+        "actions": {
+          "addModule": "Module toevoegen"
+        },
+        "modules": {
+          "title": "Modules",
+          "empty": "Nog geen modules.",
+          "sortOrder": "Volgorde #{order}",
+          "noDescription": "Geen beschrijving beschikbaar"
+        }
+      },
+      "detailErrors": {
+        "title": "Project laden mislukt",
+        "description": "We konden het project niet ophalen. Probeer het opnieuw.",
+        "retry": "Opnieuw proberen",
+        "backToList": "Terug naar projecten"
+      },
+      "form": {
+        "fields": {
+          "name": {
+            "label": "Projectnaam",
+            "placeholder": "bijv. QMS-implementatie"
+          },
+          "description": {
+            "label": "Beschrijving",
+            "placeholder": "Optionele beschrijving"
+          },
+          "repository": {
+            "label": "Repository-URL",
+            "placeholder": "https://github.com/org/repo"
+          },
+          "status": { "label": "Status" },
+          "visibility": { "label": "Zichtbaarheid" }
+        },
+        "errors": {
+          "required": "Dit veld is verplicht.",
+          "validation": "Controleer de gegevens.",
+          "generic": "Er is iets misgegaan."
+        },
+        "hint": "Je kunt de details later aanpassen."
+      },
+      "edit": {
+        "title": "Project bewerken",
+        "updated": "Laatste update: {date}",
+        "dangerZone": {
+          "title": "Project verwijderen",
+          "description": "Deze actie kan niet ongedaan worden gemaakt.",
+          "delete": "Project verwijderen"
+        }
+      },
+      "new": { "title": "Project aanmaken" },
+      "module": {
+        "header": {
+          "project": "Project: {id}",
+          "updated": "Laatste update: {date}"
+        },
+        "badges": {
+          "root": "Hoofdmodule"
+        },
+        "actions": {
+          "backToParent": "Terug naar bovenliggende module",
+          "addChild": "Submodule toevoegen",
+          "addFeature": "Feature toevoegen"
+        },
+        "children": {
+          "title": "Submodules",
+          "empty": "Nog geen submodules.",
+          "sortOrder": "Volgorde #{order}"
+        },
+        "features": {
+          "title": "Features",
+          "empty": "Nog geen features."
+        },
+        "new": {
+          "title": "Module aanmaken"
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Naam van de module",
+              "placeholder": "bijv. Checkout"
+            },
+            "description": {
+              "label": "Beschrijving",
+              "placeholder": "Optionele beschrijving"
+            },
+            "parent": {
+              "label": "Bovenliggende module",
+              "rootOption": "Hoofdmodule",
+              "hint": "Laat leeg om een hoofdmodule te maken."
+            }
+          },
+          "errors": {
+            "required": "Dit veld is verplicht.",
+            "invalidParent": "Een module kan niet zichzelf als ouder hebben.",
+            "validation": "Controleer de gegevens.",
+            "generic": "Er is iets misgegaan."
+          },
+          "hint": "Modules kunnen later opnieuw worden ingedeeld."
+        },
+        "edit": {
+          "title": "Module bewerken",
+          "subtitle": "Werkt {name} bij",
+          "dangerZone": {
+            "title": "Module verwijderen",
+            "description": "Het verwijderen van een module verwijdert ook submodules en features.",
+            "delete": "Module verwijderen"
+          }
+        },
+        "errors": {
+          "title": "Module laden mislukt",
+          "description": "We konden de module niet ophalen. Probeer het opnieuw.",
+          "retry": "Opnieuw proberen",
+          "back": "Terug naar project"
+        }
+      },
+      "feature": {
+        "header": {
+          "project": "Project: {id}",
+          "updated": "Laatste update: {date}",
+          "viewModule": "Module bekijken"
+        },
+        "description": {
+          "title": "Beschrijving",
+          "empty": "Geen beschrijving beschikbaar."
+        },
+        "issues": {
+          "title": "Gekoppelde issues & PR’s",
+          "issueLink": "Issue",
+          "pullRequestLink": "Pull request",
+          "empty": "Geen gekoppelde items."
+        },
+        "versions": {
+          "title": "Versies",
+          "label": "v{version}",
+          "rollback": "Rollback",
+          "empty": "Nog geen gepubliceerde versies."
+        },
+        "new": {
+          "title": "Feature aanmaken"
+        },
+        "edit": {
+          "title": "Feature bewerken",
+          "subtitle": "{name} bijwerken",
+          "dangerZone": {
+            "title": "Feature verwijderen",
+            "description": "Een feature verwijderen wist de volledige geschiedenis.",
+            "delete": "Feature verwijderen"
+          }
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Naam van de feature",
+              "placeholder": "bijv. 3DS v2"
+            },
+            "description": {
+              "label": "Beschrijving",
+              "placeholder": "Optionele beschrijving"
+            },
+            "module": {
+              "label": "Module",
+              "placeholder": "Kies een module"
+            },
+            "status": {
+              "label": "Status"
+            },
+            "priority": {
+              "label": "Prioriteit"
+            }
+          },
+          "errors": {
+            "required": "Dit veld is verplicht.",
+            "validation": "Controleer de gegevens.",
+            "generic": "Er is iets misgegaan."
+          },
+          "hint": "Houd informatie beknopt om reviews te versnellen."
+        },
+        "errors": {
+          "title": "Feature laden mislukt",
+          "description": "We konden de feature niet ophalen. Probeer het opnieuw.",
+          "retry": "Opnieuw proberen",
+          "back": "Terug naar module"
+        }
       }
     },
     "sidebar": {

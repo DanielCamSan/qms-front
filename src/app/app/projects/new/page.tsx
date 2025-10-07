@@ -1,9 +1,11 @@
 // src/app/app/projects/new/page.tsx
-import { getSession } from "@/lib/session";
-import { redirect } from "next/navigation";
-import { RoutesEnum } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-import NewProjectFormClient from "@/ui/components/projects/NewProjectFormClient";
+import { redirect } from "next/navigation";
+
+import { createProject } from "@/app/app/projects/actions";
+import { getSession } from "@/lib/session";
+import { RoutesEnum } from "@/lib/utils";
+import { ProjectForm } from "@/ui/components/projects/ProjectForm.client";
 
 export default async function NewProjectPage() {
   const session = await getSession();
@@ -16,7 +18,7 @@ export default async function NewProjectPage() {
       <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">
         {t("title")}
       </h1>
-      <NewProjectFormClient />
+      <ProjectForm mode="create" action={createProject} />
     </div>
   );
 }

@@ -198,26 +198,302 @@
     "vision": "Devenir une référence mondiale en solutions QMS accessibles et pratiques, permettant aux entreprises de toutes tailles de digitaliser, optimiser et améliorer continuellement leurs opérations."
   },
   "app": {
+    "common": {
+      "create": "Créer",
+      "save": "Enregistrer",
+      "projectStatus": {
+        "ACTIVE": "Actif",
+        "ON_HOLD": "En pause",
+        "FINISHED": "Terminé"
+      },
+      "visibility": {
+        "PRIVATE": "Privé",
+        "PUBLIC": "Public"
+      },
+      "featureStatus": {
+        "PENDING": "En attente",
+        "IN_PROGRESS": "En cours",
+        "DONE": "Terminé"
+      },
+      "featurePriority": {
+        "LOW": "Faible",
+        "MEDIUM": "Moyenne",
+        "HIGH": "Élevée"
+      }
+    },
     "settings": {
+      "nav": {
+        "profile": "Profil",
+        "general": "Général"
+      },
       "profile": {
+        "pageTitle": "Profil",
+        "title": "Informations personnelles",
+        "save": "Enregistrer les modifications",
+        "hint": "Les changements sont appliqués immédiatement.",
+        "alerts": {
+          "success": "Profil mis à jour avec succès.",
+          "error": "Impossible de mettre à jour votre profil."
+        },
+        "errors": {
+          "nameRequired": "Veuillez saisir votre nom.",
+          "emailInvalid": "Veuillez saisir un e-mail valide."
+        },
         "name": { "title": "Nom" },
         "email": { "title": "E-mail" },
-        "password": { "title": "Mot de passe" }
+        "password": {
+          "title": "Mot de passe",
+          "current": "Mot de passe actuel",
+          "new": "Nouveau mot de passe",
+          "confirm": "Confirmer le mot de passe",
+          "rules": "Au moins 8 caractères, avec lettres et chiffres",
+          "save": "Mettre à jour le mot de passe",
+          "hint": "Renforcez votre sécurité avec un mot de passe plus robuste.",
+          "alerts": {
+            "success": "Mot de passe mis à jour avec succès.",
+            "validation": "Veuillez vérifier les champs indiqués.",
+            "invalidPassword": "Impossible de mettre à jour le mot de passe.",
+            "invalidCurrentPassword": "Le mot de passe actuel est incorrect.",
+            "serverError": "Une erreur est survenue lors de la mise à jour du mot de passe.",
+            "error": "Impossible de mettre à jour le mot de passe."
+          },
+          "errors": {
+            "current": "Saisissez votre mot de passe actuel.",
+            "new": "Le nouveau mot de passe doit contenir au moins 8 caractères.",
+            "confirm": "Les mots de passe doivent correspondre."
+          }
+        }
       },
       "general": {
+        "pageTitle": "Général",
         "api": {
           "title": "Token API",
-          "subtitle": "Utilisez-le pour intégrer MyFlowCheck avec d’autres outils."
+          "subtitle": "Utilisez-le pour intégrer MyFlowCheck avec d’autres outils.",
+          "placeholder": "Générez votre token API depuis le backend."
         },
-        "preferences": { "title": "Préférences" }
+        "copy": "Copier",
+        "copySuccess": "Copié !",
+        "preferences": {
+          "title": "Préférences",
+          "darkMode": {
+            "label": "Mode sombre",
+            "desc": "Utiliser le thème sombre dans l’application"
+          }
+        },
+        "alerts": {
+          "success": "Préférences mises à jour.",
+          "error": "Impossible de mettre à jour vos préférences."
+        },
+        "save": "Enregistrer les modifications",
+        "hint": "Vos préférences sont enregistrées instantanément."
       }
     },
     "projects": {
-      "new": { "title": "Créer un projet" },
+      "list": {
+        "title": "Projets",
+        "subtitle": "Suivez vos initiatives et leurs modules.",
+        "create": "Nouveau projet",
+        "empty": {
+          "title": "Aucun projet trouvé.",
+          "cta": "Créez votre premier projet"
+        },
+        "updatedAt": "Mis à jour le {date}",
+        "pagination": {
+          "aria": "Pagination des projets",
+          "previous": "Précédent",
+          "next": "Suivant"
+        }
+      },
+      "errors": {
+        "title": "Impossible de charger les projets",
+        "description": "Actualisez la page ou réessayez plus tard.",
+        "retry": "Réessayer"
+      },
       "detail": {
-        "modules": "Modules",
-        "features": "Fonctionnalités",
-        "updated": "Dernière mise à jour :"
+        "updated": "Dernière mise à jour : {date}",
+        "actions": {
+          "addModule": "Ajouter un module"
+        },
+        "modules": {
+          "title": "Modules",
+          "empty": "Aucun module pour le moment.",
+          "sortOrder": "Ordre #{order}",
+          "noDescription": "Aucune description disponible"
+        }
+      },
+      "detailErrors": {
+        "title": "Échec du chargement du projet",
+        "description": "Impossible de récupérer le projet. Veuillez réessayer.",
+        "retry": "Réessayer",
+        "backToList": "Retour aux projets"
+      },
+      "form": {
+        "fields": {
+          "name": {
+            "label": "Nom du projet",
+            "placeholder": "ex. Mise en œuvre QMS"
+          },
+          "description": {
+            "label": "Description",
+            "placeholder": "Description optionnelle"
+          },
+          "repository": {
+            "label": "URL du dépôt",
+            "placeholder": "https://github.com/org/repo"
+          },
+          "status": { "label": "Statut" },
+          "visibility": { "label": "Visibilité" }
+        },
+        "errors": {
+          "required": "Ce champ est obligatoire.",
+          "validation": "Veuillez vérifier les informations.",
+          "generic": "Une erreur est survenue."
+        },
+        "hint": "Vous pourrez ajuster les détails plus tard."
+      },
+      "edit": {
+        "title": "Modifier le projet",
+        "updated": "Dernière mise à jour : {date}",
+        "dangerZone": {
+          "title": "Supprimer le projet",
+          "description": "Cette action est irréversible.",
+          "delete": "Supprimer le projet"
+        }
+      },
+      "new": { "title": "Créer un projet" },
+      "module": {
+        "header": {
+          "project": "Projet : {id}",
+          "updated": "Dernière mise à jour : {date}"
+        },
+        "badges": {
+          "root": "Module racine"
+        },
+        "actions": {
+          "backToParent": "Retour au module parent",
+          "addChild": "Ajouter un sous-module",
+          "addFeature": "Ajouter une fonctionnalité"
+        },
+        "children": {
+          "title": "Sous-modules",
+          "empty": "Aucun sous-module pour le moment.",
+          "sortOrder": "Ordre #{order}"
+        },
+        "features": {
+          "title": "Fonctionnalités",
+          "empty": "Aucune fonctionnalité pour le moment."
+        },
+        "new": {
+          "title": "Créer un module"
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Nom du module",
+              "placeholder": "ex. Checkout"
+            },
+            "description": {
+              "label": "Description",
+              "placeholder": "Description optionnelle"
+            },
+            "parent": {
+              "label": "Module parent",
+              "rootOption": "Module racine",
+              "hint": "Laissez vide pour créer un module racine."
+            }
+          },
+          "errors": {
+            "required": "Ce champ est obligatoire.",
+            "invalidParent": "Impossible d’utiliser le module comme parent de lui-même.",
+            "validation": "Veuillez vérifier les informations.",
+            "generic": "Une erreur est survenue."
+          },
+          "hint": "Vous pourrez réorganiser les modules plus tard."
+        },
+        "edit": {
+          "title": "Modifier le module",
+          "subtitle": "Mise à jour de {name}",
+          "dangerZone": {
+            "title": "Supprimer le module",
+            "description": "Supprimer un module efface aussi ses sous-modules et fonctionnalités.",
+            "delete": "Supprimer le module"
+          }
+        },
+        "errors": {
+          "title": "Échec du chargement du module",
+          "description": "Impossible de récupérer le module. Veuillez réessayer.",
+          "retry": "Réessayer",
+          "back": "Retour au projet"
+        }
+      },
+      "feature": {
+        "header": {
+          "project": "Projet : {id}",
+          "updated": "Dernière mise à jour : {date}",
+          "viewModule": "Voir le module"
+        },
+        "description": {
+          "title": "Description",
+          "empty": "Aucune description fournie."
+        },
+        "issues": {
+          "title": "Issues et PR liées",
+          "issueLink": "Issue",
+          "pullRequestLink": "Pull request",
+          "empty": "Aucune issue liée."
+        },
+        "versions": {
+          "title": "Versions",
+          "label": "v{version}",
+          "rollback": "Restauration",
+          "empty": "Aucune version publiée."
+        },
+        "new": {
+          "title": "Créer une fonctionnalité"
+        },
+        "edit": {
+          "title": "Modifier la fonctionnalité",
+          "subtitle": "Mise à jour de {name}",
+          "dangerZone": {
+            "title": "Supprimer la fonctionnalité",
+            "description": "Supprimer une fonctionnalité efface tout son historique.",
+            "delete": "Supprimer la fonctionnalité"
+          }
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Nom de la fonctionnalité",
+              "placeholder": "ex. 3DS v2"
+            },
+            "description": {
+              "label": "Description",
+              "placeholder": "Description optionnelle"
+            },
+            "module": {
+              "label": "Module",
+              "placeholder": "Sélectionnez un module"
+            },
+            "status": {
+              "label": "Statut"
+            },
+            "priority": {
+              "label": "Priorité"
+            }
+          },
+          "errors": {
+            "required": "Ce champ est obligatoire.",
+            "validation": "Veuillez vérifier les informations.",
+            "generic": "Une erreur est survenue."
+          },
+          "hint": "Gardez une description concise pour accélérer les revues."
+        },
+        "errors": {
+          "title": "Échec du chargement de la fonctionnalité",
+          "description": "Impossible de récupérer la fonctionnalité. Veuillez réessayer.",
+          "retry": "Réessayer",
+          "back": "Retour au module"
+        }
       }
     },
     "sidebar": {

@@ -1,9 +1,12 @@
-import { getSession } from "@/lib/session";
-import { redirect } from "next/navigation";
-import { RoutesEnum } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-import SettingsGeneralClient from "@/ui/components/settings/SettingsGeneralClient";
+import { redirect } from "next/navigation";
 
+import { fetchGetUserProfile } from "@/lib/data";
+import { handleUnauthorized } from "@/lib/server-auth-helpers";
+import { getSession } from "@/lib/session";
+import type { User } from "@/lib/model-definitions/user";
+import { RoutesEnum } from "@/lib/utils";
+import SettingsGeneralClient from "@/ui/components/settings/SettingsGeneralClient";
 
 export default async function GeneralSettingsPage() {
   const session = await getSession();
@@ -11,16 +14,24 @@ export default async function GeneralSettingsPage() {
 
   const t = await getTranslations("app.settings.general");
 
-  // Valores simulados: API token oculto y preferencia dark mode
+  let profile: User | null = null;
+  try {
+    profile = await fetchGetUserProfile(session.token);
+  } catch (error) {
+    await handleUnauthorized(error);
+    profile = null;
+  }
+
   const initial = {
-    apiTokenMasked: "sk_live_•••••••••••••••••••••••",
-    darkMode: false,
+    apiTokenMasked:
+      profile?.apiTokenMasked ?? t("api.placeholder"),
+    darkMode: Boolean(profile?.preferences?.darkMode),
   };
 
   return (
-    <div className="p-6 md:p-10 max-w-3xl">
-      <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">
-        {t("title", { default: "General" })}
+    <div className="p-6 md:p-10 max-w-3xl space-y-6">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+        {t("pageTitle")}
       </h1>
       <SettingsGeneralClient initial={initial} />
     </div>

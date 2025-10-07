@@ -11,10 +11,6 @@ import {
   SignUpErrorState,
   ResetPassErrorState,
   ChangePassErrorState,
-  ProjectStatus,
-  Visibility,
-  FeaturePriority,
-  FeatureStatus,
 } from '@/lib/definitions';
 import {
   fetchSignup,
@@ -24,11 +20,6 @@ import {
   fetchChangePassword,
   fetchRefreshToken,
   fetchDeleteUser,
-  fetchCreateProject,
-  fetchUpdateProject,
-  fetchDeleteProject,
-  fetchCreateModule,
-  fetchCreateFeature,
 }from '@/lib/data';
 import {
   getSession,
@@ -38,10 +29,6 @@ import {
   getRefreshInfo
 } from '@/lib/session';
 import { RoutesEnum } from '@/lib/utils';
-import { CreateProjectDto, UpdateProjectDto } from './model-definitions/project';
-import { revalidatePath } from 'next/cache';
-import { CreateModuleDto } from './model-definitions/module';
-import { CreateFeatureDto } from './model-definitions/feature';
 
 const texts = {
   invalidCredentials: 'Correo o Contraseña incorrectos.',
@@ -287,103 +274,4 @@ export async function deleteUserById(
   } catch {
     return { success: false };
   }
-}
-
-//PROJECTS
-
-export async function createProjectAction(formData: FormData) {
-  const session = await getSession();
-  if (!session?.token) return { success: false, error: "No session" };
-
-  const dto: CreateProjectDto = {
-    name: String(formData.get("name") ?? ""),
-    description: (formData.get("description") as string) || null,
-    repositoryUrl: (formData.get("repositoryUrl") as string) || null,
-    status: (formData.get("status") as  ProjectStatus) ?? "ACTIVE",
-    visibility: (formData.get("visibility") as  Visibility) ?? "PRIVATE",
-  };
-
-  const created = await fetchCreateProject(session.token, dto);
-  revalidatePath("/app/projects");
-  return { success: true, id: created.id };
-}
-
-export async function updateProjectAction(id: string, formData: FormData) {
-  const session = await getSession();
-  if (!session?.token) return { success: false, error: "No session" };
-
-  const dto: UpdateProjectDto = {
-    name: formData.get("name")?.toString(),
-    description: (formData.get("description") as string) ?? undefined,
-    repositoryUrl: (formData.get("repositoryUrl") as string) ?? undefined,
-    status: formData.get("status") as ProjectStatus ?? undefined,
-    visibility: (formData.get("visibility") as  Visibility) ?? undefined,
-  };
-
-  await fetchUpdateProject(session.token, id, dto);
-  revalidatePath("/app/projects");
-  revalidatePath(`/app/projects/${id}`);
-  return { success: true };
-}
-
-export async function deleteProjectAction(id: string) {
-  const session = await getSession();
-  if (!session?.token) return { success: false, error: "No session" };
-  await fetchDeleteProject(session.token, id);
-  revalidatePath("/app/projects");
-  return { success: true };
-}
-
-//MODULES
-
-export async function createModuleAction(projectId: string, formData: FormData) {
-  const session = await getSession();
-  if (!session?.token) return { success: false, error: "No session" };
-
-  const name = String(formData.get("name") ?? "").trim();
-  const description = (formData.get("description") as string) || null;
-  const parent = (formData.get("parentModuleId") as string) || "";
-  const parentModuleId = parent ? parent : null;
-
-  if (!name) return { success: false, error: "Name is required" };
-
-  const dto: CreateModuleDto = {
-    name,
-    description,
-    parentModuleId,
-    isRoot: parentModuleId === null,
-  };
-
-  const created = await fetchCreateModule(session.token, projectId, dto);
-  // revalidate listado del proyecto y módulo creado
-  revalidatePath(`/app/projects/${projectId}`);
-  revalidatePath(`/app/projects/${projectId}/modules/${created.id}`);
-
-  return { success: true, id: created.id };
-}
-
-//FEATURES
-
-export async function createFeatureAction(projectId: string, formData: FormData) {
-  const session = await getSession();
-  if (!session?.token) return { success: false, error: "No session" };
-
-  const name = String(formData.get("name") ?? "").trim();
-  const description = (formData.get("description") as string) || null;
-  const moduleId = String(formData.get("moduleId") ?? "");
-  const priority = (formData.get("priority") as FeaturePriority) || FeaturePriority.MEDIUM;
-  const status = (formData.get("status") as FeatureStatus) || FeatureStatus.PENDING;
-
-  if (!name) return { success: false, error: "Name is required" };
-  if (!moduleId) return { success: false, error: "Module is required" };
-
-  const dto: CreateFeatureDto = { name, description, priority, status };
-
-  const created = await fetchCreateFeature(session.token, moduleId, dto);
-
-  revalidatePath(`/app/projects/${projectId}`);
-  revalidatePath(`/app/projects/${projectId}/modules/${moduleId}`);
-  revalidatePath(`/app/projects/${projectId}/features/${created.id}`);
-
-  return { success: true, id: created.id, moduleId };
 }

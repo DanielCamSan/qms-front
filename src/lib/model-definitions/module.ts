@@ -24,3 +24,5 @@ export type CreateModuleDto = {
   parentModuleId?: string | null; // null para root
   isRoot?: boolean;               // true si parent=null
 };
+
+export type UpdateModuleDto = Partial<CreateModuleDto>;

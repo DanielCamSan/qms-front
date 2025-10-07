@@ -1,88 +1,216 @@
-// src/app/app/projects/[projectId]/features/[featureId]/page.tsx
-import { redirect, notFound } from "next/navigation";
+import Link from "next/link";
+import {
+  getFormatter,
+  getTranslations,
+} from "next-intl/server";
+import {
+  notFound,
+  redirect,
+} from "next/navigation";
+
+import {
+  FeaturePriority,
+  FeatureStatus,
+} from "@/lib/definitions";
+import {
+  fetchFeatureById,
+} from "@/lib/data";
+import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
-import { RoutesEnum } from "@/lib/utils";
-import { fetchFeatureById } from "@/lib/data";
 import type { Feature } from "@/lib/model-definitions/feature";
-import { FeatureStatus } from "@/lib/definitions";
+import { RoutesEnum } from "@/lib/utils";
 
-type Params = { projectId: string; featureId: string };
+type Params = {
+  projectId: string;
+  featureId: string;
+};
 
-export default async function FeatureDetailPage({ params }: { params: Params }) {
+export default async function FeatureDetailPage({
+  params,
+}: {
+  params: Params;
+}) {
   const session = await getSession();
   if (!session?.token) redirect(RoutesEnum.LOGIN);
+
+  const t = await getTranslations("app.projects.feature");
+  const tStatus = await getTranslations("app.common.featureStatus");
+  const tPriority = await getTranslations("app.common.featurePriority");
+  const formatter = await getFormatter();
 
   const { projectId, featureId } = params;
 
   let feature: Feature | null = null;
   try {
     feature = await fetchFeatureById(session.token, featureId);
-  } catch {
-    notFound();
+  } catch (error) {
+    await handleUnauthorized(error);
+    if (error instanceof Response) {
+      if (error.status === 404) notFound();
+      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
+    }
+    throw error;
   }
+
   if (!feature) notFound();
+
+  const formattedUpdatedAt = formatter.dateTime(
+    new Date(feature.updatedAt),
+    { dateStyle: "medium" }
+  );
 
   return (
     <div className="grid gap-6">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">{feature.name}</h1>
-          <p className="text-sm text-[color:var(--color-muted-fg)]">
-            Project: {projectId} • Last update: {new Date(feature.updatedAt).toLocaleDateString()}
-          </p>
+      <header className="rounded-xl border bg-white p-4">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold">{feature.name}</h1>
+            <p className="text-sm text-muted-foreground">
+              {t("header.project", { id: projectId })}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {t("header.updated", { date: formattedUpdatedAt })}
+            </p>
+          </div>
+          <div className="flex flex-col items-end gap-2">
+            <FeatureStatusBadge
+              status={feature.status}
+              label={tStatus(feature.status)}
+            />
+            <FeaturePriorityBadge
+              priority={feature.priority ?? FeaturePriority.MEDIUM}
+              label={tPriority(feature.priority ?? FeaturePriority.MEDIUM)}
+            />
+            <Link
+              href={`/app/projects/${projectId}/modules/${feature.moduleId}`}
+              className="text-xs text-primary hover:underline"
+            >
+              {t("header.viewModule")}
+            </Link>
+          </div>
         </div>
-        <FeatureStatusBadge status={feature.status} />
       </header>
 
       <section className="rounded-xl border bg-white p-4">
-        <h2 className="font-semibold mb-2">Description</h2>
-        <p className="text-sm">{feature.description || "No description"}</p>
+        <h2 className="mb-2 font-semibold">{t("description.title")}</h2>
+        <p className="text-sm text-muted-foreground">
+          {feature.description ?? t("description.empty")}
+        </p>
       </section>
 
-      {!!feature.issueElements?.length && (
-        <section className="rounded-xl border bg-white p-4">
-          <h2 className="font-semibold mb-2">Linked Issues / PRs</h2>
-          <ul className="list-disc list-inside text-sm">
-            {feature.issueElements.map((i) => (
-              <li key={i.id}>
-                {i.githubIssueUrl && <a className="underline" href={i.githubIssueUrl} target="_blank">Issue</a>}{" "}
-                {i.pullRequestUrl && (
-                  <>
-                    {i.githubIssueUrl ? "• " : ""}
-                    <a className="underline" href={i.pullRequestUrl} target="_blank">PR</a>
-                  </>
+      <section className="rounded-xl border bg-white p-4">
+        <h2 className="mb-2 font-semibold">{t("issues.title")}</h2>
+        {feature.issueElements?.length ? (
+          <ul className="space-y-2 text-sm">
+            {feature.issueElements.map((issue) => (
+              <li key={issue.id} className="flex flex-wrap items-center gap-2">
+                {issue.githubIssueUrl && (
+                  <a
+                    href={issue.githubIssueUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-primary underline"
+                  >
+                    {t("issues.issueLink")}
+                  </a>
+                )}
+                {issue.pullRequestUrl && (
+                  <a
+                    href={issue.pullRequestUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-primary underline"
+                  >
+                    {t("issues.pullRequestLink")}
+                  </a>
                 )}
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {t("issues.empty")}
+          </p>
+        )}
+      </section>
 
-      {!!feature.versions?.length && (
-        <section className="rounded-xl border bg-white p-4">
-          <h2 className="font-semibold mb-2">Versions</h2>
-          <ul className="text-sm space-y-1">
-            {feature.versions.map((v) => (
-              <li key={v.id} className="flex items-center justify-between">
-                <span>v{v.versionNumber}{v.isRollback ? " (rollback)" : ""}</span>
-                <span className="text-muted-foreground">{new Date(v.createdAt).toLocaleDateString()}</span>
+      <section className="rounded-xl border bg-white p-4">
+        <h2 className="mb-2 font-semibold">{t("versions.title")}</h2>
+        {feature.versions?.length ? (
+          <ul className="space-y-2 text-sm">
+            {feature.versions.map((version) => (
+              <li
+                key={version.id}
+                className="flex items-center justify-between rounded-lg border border-transparent px-3 py-2 transition-colors hover:border-muted"
+              >
+                <div>
+                  <span className="font-medium">
+                    {t("versions.label", {
+                      version: version.versionNumber,
+                    })}
+                  </span>
+                  {version.isRollback && (
+                    <span className="ml-2 text-xs text-amber-600">
+                      {t("versions.rollback")}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs text-muted-foreground">
+                  {formatter.dateTime(new Date(version.createdAt), {
+                    dateStyle: "medium",
+                  })}
+                </span>
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {t("versions.empty")}
+          </p>
+        )}
+      </section>
     </div>
   );
 }
 
-function FeatureStatusBadge({ status }: { status: Feature["status"] }) {
+function FeatureStatusBadge({
+  status,
+  label,
+}: {
+  status: Feature["status"];
+  label: string;
+}) {
   const tone =
     status === FeatureStatus.DONE
-      ? "bg-blue-100 text-blue-800 border-blue-200"
+      ? "border-blue-200 bg-blue-100 text-blue-800"
       : status === FeatureStatus.IN_PROGRESS
-      ? "bg-amber-100 text-amber-800 border-amber-200"
-      : "bg-gray-100 text-gray-800 border-gray-200";
+      ? "border-amber-200 bg-amber-100 text-amber-800"
+      : "border-slate-200 bg-slate-100 text-slate-800";
+
   return (
-    <span className={`rounded-full border px-2 py-0.5 text-xs ${tone}`}>{status}</span>
+    <span className={`rounded-full border px-2 py-0.5 text-xs ${tone}`}>
+      {label}
+    </span>
+  );
+}
+
+function FeaturePriorityBadge({
+  priority,
+  label,
+}: {
+  priority: FeaturePriority;
+  label: string;
+}) {
+  const tone =
+    priority === FeaturePriority.HIGH
+      ? "border-rose-200 bg-rose-100 text-rose-800"
+      : priority === FeaturePriority.LOW
+      ? "border-emerald-200 bg-emerald-100 text-emerald-800"
+      : "border-sky-200 bg-sky-100 text-sky-800";
+
+  return (
+    <span className={`rounded-full border px-2 py-0.5 text-[10px] ${tone}`}>
+      {label}
+    </span>
   );
 }

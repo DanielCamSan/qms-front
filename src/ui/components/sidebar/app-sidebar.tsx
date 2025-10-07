@@ -1,12 +1,23 @@
 // app-sidebar.tsx
-import { getSession } from '@/lib/session';
 import { getTranslations } from 'next-intl/server';
 import AppSidebarClient, { AppSidebarItem } from './app-sidebar-client';
 import ResponsiveMenu from '@/ui/components/navbar/responsive-menu';
+import { getSession } from '@/lib/session';
+import { fetchGetUserProfile } from '@/lib/data';
+import type { User } from '@/lib/model-definitions/user';
 
 export default async function AppSidebar() {
   const t = await getTranslations('app.sidebar');
   const session = await getSession();
+  let profile: User | null = null;
+
+  if (session?.token) {
+    try {
+      profile = await fetchGetUserProfile(session.token);
+    } catch {
+      profile = null;
+    }
+  }
 
   const items: AppSidebarItem[] = [
     { key: 'home',     label: t('home'),           href: '/app',          icon: 'home' },
@@ -14,8 +25,13 @@ export default async function AppSidebar() {
     { key: 'settings', label: t('settingSection'), href: '/app/settings', icon: 'settings' },
   ];
 
-  const userName  = 'pepe';//session?.user?.name  ?? 'UserName';
-  const userEmail = 'pepe@test.com';//session?.user?.email ?? 'user@demo.com';
+  const displayName =
+    profile?.name?.trim() ||
+    (profile?.email ? profile.email.split('@')[0] : t('menuAdmin'));
+  const displayEmail = profile?.email ?? '';
+  const displayInitial =
+    displayName?.charAt(0).toUpperCase() ||
+    (displayEmail ? displayEmail.charAt(0).toUpperCase() : 'U');
 
   return (
     <>
@@ -31,11 +47,15 @@ export default async function AppSidebar() {
           <div className="h-10 w-10 rounded-xl bg-primary/15
                           flex items-center justify-center
                           text-[color:var(--color-foreground)] font-semibold">
-            {userName.slice(0,1).toUpperCase()}
+            {displayInitial}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-semibold truncate">{userName}</p>
-            <p className="text-xs text-[color:var(--color-muted-fg)] truncate">{userEmail}</p>
+            <p className="text-sm font-semibold truncate">{displayName}</p>
+            {displayEmail ? (
+              <p className="text-xs text-[color:var(--color-muted-fg)] truncate">
+                {displayEmail}
+              </p>
+            ) : null}
           </div>
         </div>
 
@@ -55,11 +75,15 @@ export default async function AppSidebar() {
               <div className="h-10 w-10 rounded-xl bg-primary/15
                               flex items-center justify-center
                               text-[color:var(--color-foreground)] font-semibold">
-                {userName.slice(0,1).toUpperCase()}
+                {displayInitial}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold truncate">{userName}</p>
-                <p className="text-xs text-[color:var(--color-muted-fg)] truncate">{userEmail}</p>
+                <p className="text-sm font-semibold truncate">{displayName}</p>
+                {displayEmail ? (
+                  <p className="text-xs text-[color:var(--color-muted-fg)] truncate">
+                    {displayEmail}
+                  </p>
+                ) : null}
               </div>
             </div>
 

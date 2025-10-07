@@ -252,26 +252,302 @@
     "vision": "Convertirse en un referente global de soluciones QMS accesibles y prácticas, empoderando a empresas de todos los tamaños para digitalizar, optimizar y mejorar continuamente sus operaciones."
   },
   "app": {
+    "common": {
+      "create": "Crear",
+      "save": "Guardar",
+      "projectStatus": {
+        "ACTIVE": "Activo",
+        "ON_HOLD": "En pausa",
+        "FINISHED": "Finalizado"
+      },
+      "visibility": {
+        "PRIVATE": "Privado",
+        "PUBLIC": "Público"
+      },
+      "featureStatus": {
+        "PENDING": "Pendiente",
+        "IN_PROGRESS": "En progreso",
+        "DONE": "Completado"
+      },
+      "featurePriority": {
+        "LOW": "Baja",
+        "MEDIUM": "Media",
+        "HIGH": "Alta"
+      }
+    },
     "settings": {
+      "nav": {
+        "profile": "Perfil",
+        "general": "General"
+      },
       "profile": {
+        "pageTitle": "Perfil",
+        "title": "Información personal",
+        "save": "Guardar cambios",
+        "hint": "Los cambios se aplican inmediatamente.",
+        "alerts": {
+          "success": "Perfil actualizado correctamente.",
+          "error": "No pudimos actualizar tu perfil."
+        },
+        "errors": {
+          "nameRequired": "Ingresa tu nombre.",
+          "emailInvalid": "Ingresa un correo válido."
+        },
         "name": { "title": "Nombre" },
         "email": { "title": "Correo electrónico" },
-        "password": { "title": "Contraseña" }
+        "password": {
+          "title": "Contraseña",
+          "current": "Contraseña actual",
+          "new": "Nueva contraseña",
+          "confirm": "Confirmar contraseña",
+          "rules": "Al menos 8 caracteres, con letras y números",
+          "save": "Actualizar contraseña",
+          "hint": "Refuerza tu seguridad con una contraseña más robusta.",
+          "alerts": {
+            "success": "Contraseña actualizada correctamente.",
+            "validation": "Revisa los campos resaltados.",
+            "invalidPassword": "No pudimos actualizar la contraseña.",
+            "invalidCurrentPassword": "La contraseña actual es incorrecta.",
+            "serverError": "Ocurrió un error al actualizar la contraseña.",
+            "error": "No pudimos actualizar la contraseña."
+          },
+          "errors": {
+            "current": "Ingresa tu contraseña actual.",
+            "new": "La nueva contraseña debe tener al menos 8 caracteres.",
+            "confirm": "Las contraseñas deben coincidir."
+          }
+        }
       },
       "general": {
+        "pageTitle": "General",
         "api": {
           "title": "Token API",
-          "subtitle": "Úsalo para integrar MyFlowCheck con otras herramientas."
+          "subtitle": "Úsalo para integrar MyFlowCheck con otras herramientas.",
+          "placeholder": "Genera tu token de API desde el backend."
         },
-        "preferences": { "title": "Preferencias" }
+        "copy": "Copiar",
+        "copySuccess": "¡Copiado!",
+        "preferences": {
+          "title": "Preferencias",
+          "darkMode": {
+            "label": "Modo oscuro",
+            "desc": "Usar el tema oscuro en la aplicación"
+          }
+        },
+        "alerts": {
+          "success": "Preferencias actualizadas.",
+          "error": "No pudimos actualizar tus preferencias."
+        },
+        "save": "Guardar cambios",
+        "hint": "Tus preferencias se guardan al instante."
       }
     },
     "projects": {
-      "new": { "title": "Crear proyecto" },
+      "list": {
+        "title": "Proyectos",
+        "subtitle": "Gestiona tus iniciativas y sus módulos.",
+        "create": "Nuevo proyecto",
+        "empty": {
+          "title": "No se encontraron proyectos.",
+          "cta": "Crea tu primer proyecto"
+        },
+        "updatedAt": "Actualizado {date}",
+        "pagination": {
+          "aria": "Paginación de proyectos",
+          "previous": "Anterior",
+          "next": "Siguiente"
+        }
+      },
+      "errors": {
+        "title": "No se pudieron cargar los proyectos",
+        "description": "Intenta actualizar la página o vuelve más tarde.",
+        "retry": "Reintentar"
+      },
       "detail": {
-        "modules": "Módulos",
-        "features": "Funcionalidades",
-        "updated": "Última actualización:"
+        "updated": "Última actualización: {date}",
+        "actions": {
+          "addModule": "Agregar módulo"
+        },
+        "modules": {
+          "title": "Módulos",
+          "empty": "Aún no hay módulos.",
+          "sortOrder": "Orden #{order}",
+          "noDescription": "Sin descripción disponible"
+        }
+      },
+      "detailErrors": {
+        "title": "No se pudo cargar el proyecto",
+        "description": "No pudimos obtener el proyecto. Intenta nuevamente.",
+        "retry": "Reintentar",
+        "backToList": "Volver a proyectos"
+      },
+      "form": {
+        "fields": {
+          "name": {
+            "label": "Nombre del proyecto",
+            "placeholder": "Ej. Implementación QMS"
+          },
+          "description": {
+            "label": "Descripción",
+            "placeholder": "Descripción opcional"
+          },
+          "repository": {
+            "label": "URL del repositorio",
+            "placeholder": "https://github.com/org/repo"
+          },
+          "status": { "label": "Estado" },
+          "visibility": { "label": "Visibilidad" }
+        },
+        "errors": {
+          "required": "Este campo es obligatorio.",
+          "validation": "Revisa la información.",
+          "generic": "Ocurrió un error."
+        },
+        "hint": "Puedes ajustar los detalles más adelante."
+      },
+      "edit": {
+        "title": "Editar proyecto",
+        "updated": "Última actualización: {date}",
+        "dangerZone": {
+          "title": "Eliminar proyecto",
+          "description": "Esta acción no se puede deshacer.",
+          "delete": "Eliminar proyecto"
+        }
+      },
+      "new": { "title": "Crear proyecto" },
+      "module": {
+        "header": {
+          "project": "Proyecto: {id}",
+          "updated": "Última actualización: {date}"
+        },
+        "badges": {
+          "root": "Módulo raíz"
+        },
+        "actions": {
+          "backToParent": "Volver al padre",
+          "addChild": "Agregar submódulo",
+          "addFeature": "Agregar feature"
+        },
+        "children": {
+          "title": "Submódulos",
+          "empty": "Aún no hay submódulos.",
+          "sortOrder": "Orden #{order}"
+        },
+        "features": {
+          "title": "Features",
+          "empty": "Aún no hay features."
+        },
+        "new": {
+          "title": "Crear módulo"
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Nombre del módulo",
+              "placeholder": "Ej. Checkout"
+            },
+            "description": {
+              "label": "Descripción",
+              "placeholder": "Descripción opcional"
+            },
+            "parent": {
+              "label": "Módulo padre",
+              "rootOption": "Módulo raíz",
+              "hint": "Déjalo vacío para crear un módulo raíz."
+            }
+          },
+          "errors": {
+            "required": "Este campo es obligatorio.",
+            "invalidParent": "No puedes usar el mismo módulo como padre.",
+            "validation": "Revisa la información.",
+            "generic": "Ocurrió un error."
+          },
+          "hint": "Podrás reorganizar los módulos más adelante."
+        },
+        "edit": {
+          "title": "Editar módulo",
+          "subtitle": "Actualizando {name}",
+          "dangerZone": {
+            "title": "Eliminar módulo",
+            "description": "Eliminar un módulo también borra sus submódulos y features.",
+            "delete": "Eliminar módulo"
+          }
+        },
+        "errors": {
+          "title": "No se pudo cargar el módulo",
+          "description": "No pudimos obtener el módulo. Intenta nuevamente.",
+          "retry": "Reintentar",
+          "back": "Volver al proyecto"
+        }
+      },
+      "feature": {
+        "header": {
+          "project": "Proyecto: {id}",
+          "updated": "Última actualización: {date}",
+          "viewModule": "Ver módulo"
+        },
+        "description": {
+          "title": "Descripción",
+          "empty": "Sin descripción."
+        },
+        "issues": {
+          "title": "Issues y PR vinculados",
+          "issueLink": "Issue",
+          "pullRequestLink": "Pull request",
+          "empty": "Sin elementos vinculados."
+        },
+        "versions": {
+          "title": "Versiones",
+          "label": "v{version}",
+          "rollback": "Reversión",
+          "empty": "Sin versiones publicadas."
+        },
+        "new": {
+          "title": "Crear feature"
+        },
+        "edit": {
+          "title": "Editar feature",
+          "subtitle": "Actualizando {name}",
+          "dangerZone": {
+            "title": "Eliminar feature",
+            "description": "Eliminar una feature borra todo su historial.",
+            "delete": "Eliminar feature"
+          }
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Nombre de la feature",
+              "placeholder": "Ej. 3DS v2"
+            },
+            "description": {
+              "label": "Descripción",
+              "placeholder": "Descripción opcional"
+            },
+            "module": {
+              "label": "Módulo",
+              "placeholder": "Selecciona un módulo"
+            },
+            "status": {
+              "label": "Estado"
+            },
+            "priority": {
+              "label": "Prioridad"
+            }
+          },
+          "errors": {
+            "required": "Este campo es obligatorio.",
+            "validation": "Revisa la información.",
+            "generic": "Ocurrió un error."
+          },
+          "hint": "Mantén la información concisa para agilizar las revisiones."
+        },
+        "errors": {
+          "title": "No se pudo cargar la feature",
+          "description": "No pudimos obtener la feature. Intenta nuevamente.",
+          "retry": "Reintentar",
+          "back": "Volver al módulo"
+        }
       }
     },
     "sidebar": {

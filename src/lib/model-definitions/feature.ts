@@ -23,3 +23,7 @@ export type CreateFeatureDto = {
   priority?: FeaturePriority; // default MEDIUM en back
   status?: FeatureStatus;     // default PENDING en back
 };
+
+export type UpdateFeatureDto = Partial<CreateFeatureDto> & {
+  moduleId?: string;
+};

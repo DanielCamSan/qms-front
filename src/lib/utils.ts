@@ -223,6 +223,10 @@ export async function fetchWithAuth(
   });
 
   if (response.status === 401) {
+    if (typeof window === 'undefined') {
+      return response;
+    }
+
     if (!refreshingPromise) {
       console.warn('[fetchWithAuth] 401 detectado. Iniciando refresh...');
       refreshingPromise = fetch('/api/auth/refresh', { method: 'POST' })
@@ -263,7 +267,9 @@ export async function fetchWithAuth(
       }
     }
     // Si sigue fallando, login obligado
-    window.location.href = '/login';
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
     throw new Error('Sesión expirada. Redirigiendo al login.');
   }
 

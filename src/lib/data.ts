@@ -5,10 +5,91 @@ import {
 } from "@/lib/definitions";
 import { fetchWithAuth } from "./utils";
 import { handleUnauthorized } from "@/lib/server-auth-helpers";
-import { User } from "./model-definitions/user";
-import { CreateProjectDto, UpdateProjectDto } from "./model-definitions/project";
-import { CreateModuleDto, Module } from "./model-definitions/module";
-import { CreateFeatureDto, Feature } from "./model-definitions/feature";
+import { UpdateUserDto, User } from "./model-definitions/user";
+import {
+  CreateProjectDto,
+  Project,
+  UpdateProjectDto,
+} from "./model-definitions/project";
+import {
+  CreateModuleDto,
+  Module,
+  UpdateModuleDto,
+} from "./model-definitions/module";
+import {
+  CreateFeatureDto,
+  Feature,
+  UpdateFeatureDto,
+} from "./model-definitions/feature";
+
+type PaginatedResponse<T> = {
+  items: T[];
+  total: number;
+  page: number;
+  limit: number;
+};
+
+function normalizePaginated<T>(payload: unknown): PaginatedResponse<T> {
+  if (Array.isArray(payload)) {
+    const items = payload as T[];
+    const length = items.length || 1;
+    return {
+      items,
+      total: items.length,
+      page: 1,
+      limit: length,
+    };
+  }
+
+  if (payload && typeof payload === "object") {
+    const data = payload as Record<string, unknown> & {
+      items?: T[];
+      data?: T[];
+      total?: number;
+      page?: number;
+      limit?: number;
+      meta?: { page?: number; limit?: number; total?: number };
+    };
+    const itemsCandidate = Array.isArray(data.items)
+      ? data.items
+      : Array.isArray(data.data)
+      ? data.data
+      : [];
+    const items = itemsCandidate.filter(Boolean) as T[];
+    const metaTotal =
+      typeof data.total === "number"
+        ? data.total
+        : typeof data.meta?.total === "number"
+        ? data.meta.total
+        : items.length;
+    const metaPage =
+      typeof data.page === "number"
+        ? data.page
+        : typeof data.meta?.page === "number"
+        ? data.meta.page
+        : 1;
+    const metaLimit =
+      typeof data.limit === "number"
+        ? data.limit
+        : typeof data.meta?.limit === "number"
+        ? data.meta.limit
+        : Math.max(items.length, 1);
+
+    return {
+      items,
+      total: Math.max(0, metaTotal),
+      page: Math.max(1, metaPage),
+      limit: Math.max(1, metaLimit),
+    };
+  }
+
+  return {
+    items: [],
+    total: 0,
+    page: 1,
+    limit: 1,
+  };
+}
 
 const apiUrl: string = process.env.NEXT_PUBLIC_API_URL ?? "";
 // AUTH
@@ -208,7 +289,7 @@ export async function fetchLogout(token: string): Promise<void> {
 export async function fetchGetUserProfile(token: string): Promise<User> {
   try {
     return await fetchWithAuth(
-      `${apiUrl}/auth/me`,
+      `${apiUrl}/users/me/profile`,
       {
         method: "GET",
       },
@@ -250,6 +331,29 @@ export async function fetchChangePassword({
     });
   } catch (error) {
     console.error("Database Error:", error);
+    throw error;
+  }
+}
+export async function fetchUpdateCurrentUser(
+  token: string,
+  dto: UpdateUserDto
+): Promise<User> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/users/me`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dto),
+      },
+      token
+    );
+    if (!res.ok) throw res;
+    return (await res.json()) as User;
+  } catch (error) {
+    await handleUnauthorized(error);
     throw error;
   }
 }
@@ -296,7 +400,7 @@ export async function fetchDeleteUser({
 export async function fetchProjectsMine(
   token: string,
   params?: { page?: number; limit?: number; sort?: string; q?: string }
-){
+): Promise<PaginatedResponse<Project>> {
   const query = new URLSearchParams();
   if (params?.page) query.set("page", String(params.page));
   if (params?.limit) query.set("limit", String(params.limit));
@@ -310,7 +414,8 @@ export async function fetchProjectsMine(
       token
     );
     if (!res.ok) throw res;
-    return (await res.json()) ;
+    const payload = await res.json();
+    return normalizePaginated<Project>(payload);
   } catch (error) {
     await handleUnauthorized(error);
     throw error;
@@ -428,7 +533,7 @@ export async function fetchProjectModules(
   token: string,
   projectId: string,
   params?: { parent?: string | null; page?: number; limit?: number; sort?: string; q?: string }
-) {
+): Promise<PaginatedResponse<Module>> {
   const query = new URLSearchParams();
   if (params?.parent === null) query.set("parent", "null");
   else if (typeof params?.parent === "string") query.set("parent", params.parent);
@@ -445,7 +550,8 @@ export async function fetchProjectModules(
       token
     );
     if (!res.ok) throw res;
-    return await res.json(); // { items, total, page, limit } según tu back
+    const payload = await res.json();
+    return normalizePaginated<Module>(payload);
   } catch (error) {
     await handleUnauthorized(error);
     throw error;
@@ -455,6 +561,47 @@ export async function fetchProjectModules(
 export async function fetchModuleById(token: string, moduleId: string) {
   try {
     const res = await fetchWithAuth(`${apiUrl}/modules/${moduleId}`, { method: "GET" }, token);
+    if (!res.ok) throw res;
+    return await res.json();
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
+
+export async function fetchUpdateModule(
+  token: string,
+  moduleId: string,
+  dto: UpdateModuleDto
+): Promise<Module> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/modules/${moduleId}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dto),
+      },
+      token
+    );
+    if (!res.ok) throw res;
+    return await res.json();
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
+
+export async function fetchDeleteModule(
+  token: string,
+  moduleId: string
+): Promise<{ ok?: boolean; deletedId?: string }> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/modules/${moduleId}`,
+      { method: "DELETE" },
+      token
+    );
     if (!res.ok) throw res;
     return await res.json();
   } catch (error) {
@@ -503,6 +650,47 @@ export async function fetchCreateFeature(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dto),
       },
+      token
+    );
+    if (!res.ok) throw res;
+    return await res.json();
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
+
+export async function fetchUpdateFeature(
+  token: string,
+  featureId: string,
+  dto: UpdateFeatureDto
+): Promise<Feature> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/features/${featureId}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dto),
+      },
+      token
+    );
+    if (!res.ok) throw res;
+    return await res.json();
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
+
+export async function fetchDeleteFeature(
+  token: string,
+  featureId: string
+): Promise<{ ok?: boolean; deletedId?: string }> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/features/${featureId}`,
+      { method: "DELETE" },
       token
     );
     if (!res.ok) throw res;

@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, FolderTree, Settings, Sun, Moon, LogOut } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { FolderTree, Home, LogOut, Settings } from 'lucide-react';
+
 import LogoutButton from '@/ui/components/auth/logout-button';
 
 export type AppSidebarItem = {
@@ -21,21 +20,7 @@ export default function AppSidebarClient({
   items?: AppSidebarItem[];
   footerOnly?: boolean;
 }) {
-  const t = useTranslations('app.sidebar');
   const pathname = usePathname();
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    setDark(document.documentElement.classList.contains('dark'));
-  }, []);
-
-  const toggleTheme = () => {
-    setDark((d) => {
-      const next = !d;
-      document.documentElement.classList.toggle('dark', next);
-      return next;
-    });
-  };
 
   const IconMap = { home: Home, projects: FolderTree, settings: Settings } as const;
 

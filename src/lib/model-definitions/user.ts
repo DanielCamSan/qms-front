@@ -1,6 +1,12 @@
 import { ISODateString, UserRole } from "../definitions";
 import { GithubIdentity } from "./github-identity";
 
+export type UserPreferences = {
+  darkMode?: boolean;
+  locale?: string | null;
+  [key: string]: unknown;
+};
+
 export type User = {
   id: string;
   email: string;
@@ -10,7 +16,13 @@ export type User = {
   lastLoginAt: ISODateString | null;
   createdAt: ISODateString;
   updatedAt: ISODateString;
-  // Opcionalmente puedes incluir username de GitHub si lo devuelves en /users/me/profile
   githubIdentity?: GithubIdentity | null;
-  };
-  
+  apiTokenMasked?: string | null;
+  preferences?: UserPreferences | null;
+};
+
+export type UpdateUserDto = {
+  name?: string;
+  email?: string;
+  preferences?: UserPreferences;
+};

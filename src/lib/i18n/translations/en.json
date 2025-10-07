@@ -252,26 +252,302 @@
     "vision": "To become a global reference for accessible and practical QMS solutions, empowering companies of all sizes to digitize, optimize, and continuously improve their operations."
   },
   "app": {
+    "common": {
+      "create": "Create",
+      "save": "Save",
+      "projectStatus": {
+        "ACTIVE": "Active",
+        "ON_HOLD": "On hold",
+        "FINISHED": "Finished"
+      },
+      "visibility": {
+        "PRIVATE": "Private",
+        "PUBLIC": "Public"
+      },
+      "featureStatus": {
+        "PENDING": "Pending",
+        "IN_PROGRESS": "In progress",
+        "DONE": "Done"
+      },
+      "featurePriority": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High"
+      }
+    },
     "settings": {
+      "nav": {
+        "profile": "Profile",
+        "general": "General"
+      },
       "profile": {
+        "pageTitle": "Profile",
+        "title": "Profile information",
+        "save": "Save changes",
+        "hint": "Changes will be applied immediately.",
+        "alerts": {
+          "success": "Profile updated successfully.",
+          "error": "We couldn't update your profile."
+        },
+        "errors": {
+          "nameRequired": "Please enter your name.",
+          "emailInvalid": "Please provide a valid email."
+        },
         "name": { "title": "Name" },
         "email": { "title": "Email" },
-        "password": { "title": "Password" }
+        "password": {
+          "title": "Password",
+          "current": "Current password",
+          "new": "New password",
+          "confirm": "Confirm password",
+          "rules": "At least 8 characters, with letters and numbers",
+          "save": "Update password",
+          "hint": "Secure your account with a stronger password.",
+          "alerts": {
+            "success": "Password updated successfully.",
+            "validation": "Please review the highlighted fields.",
+            "invalidPassword": "We couldn't update the password.",
+            "invalidCurrentPassword": "Current password is incorrect.",
+            "serverError": "Something went wrong while updating the password.",
+            "error": "We couldn't update the password."
+          },
+          "errors": {
+            "current": "Enter your current password.",
+            "new": "Use at least 8 characters for the new password.",
+            "confirm": "Passwords must match."
+          }
+        }
       },
       "general": {
+        "pageTitle": "General",
         "api": {
-          "title": "API Token",
-          "subtitle": "Use it to integrate MyFlowCheck with other tools."
+          "title": "API token",
+          "subtitle": "Use it to integrate MyFlowCheck with other tools.",
+          "placeholder": "Generate your API token from the backend."
         },
-        "preferences": { "title": "Preferences" }
+        "copy": "Copy",
+        "copySuccess": "Copied!",
+        "preferences": {
+          "title": "Preferences",
+          "darkMode": {
+            "label": "Dark mode",
+            "desc": "Use the dark theme in the application"
+          }
+        },
+        "alerts": {
+          "success": "Preferences updated.",
+          "error": "We couldn't update your preferences."
+        },
+        "save": "Save changes",
+        "hint": "Your preferences are saved instantly."
       }
     },
     "projects": {
-      "new": { "title": "Create project" },
+      "list": {
+        "title": "Projects",
+        "subtitle": "Track your initiatives and their modules.",
+        "create": "New project",
+        "empty": {
+          "title": "No projects found.",
+          "cta": "Create your first project"
+        },
+        "updatedAt": "Updated {date}",
+        "pagination": {
+          "aria": "Projects pagination",
+          "previous": "Previous",
+          "next": "Next"
+        }
+      },
+      "errors": {
+        "title": "Unable to load projects",
+        "description": "Try refreshing the page or come back later.",
+        "retry": "Retry"
+      },
       "detail": {
-        "modules": "Modules",
-        "features": "Features",
-        "updated": "Last update:"
+        "updated": "Last update: {date}",
+        "actions": {
+          "addModule": "Add module"
+        },
+        "modules": {
+          "title": "Modules",
+          "empty": "No modules yet.",
+          "sortOrder": "Order #{order}",
+          "noDescription": "No description available"
+        }
+      },
+      "detailErrors": {
+        "title": "Project failed to load",
+        "description": "We couldn't retrieve the project. Please try again.",
+        "retry": "Retry",
+        "backToList": "Back to projects"
+      },
+      "form": {
+        "fields": {
+          "name": {
+            "label": "Project name",
+            "placeholder": "e.g. QMS implementation"
+          },
+          "description": {
+            "label": "Description",
+            "placeholder": "Optional description"
+          },
+          "repository": {
+            "label": "Repository URL",
+            "placeholder": "https://github.com/org/repo"
+          },
+          "status": { "label": "Status" },
+          "visibility": { "label": "Visibility" }
+        },
+        "errors": {
+          "required": "This field is required.",
+          "validation": "Please review the information.",
+          "generic": "Something went wrong."
+        },
+        "hint": "You can adjust project details later."
+      },
+      "edit": {
+        "title": "Edit project",
+        "updated": "Last update: {date}",
+        "dangerZone": {
+          "title": "Delete project",
+          "description": "This action cannot be undone.",
+          "delete": "Delete project"
+        }
+      },
+      "new": { "title": "Create project" },
+      "module": {
+        "header": {
+          "project": "Project: {id}",
+          "updated": "Last update: {date}"
+        },
+        "badges": {
+          "root": "Root module"
+        },
+        "actions": {
+          "backToParent": "Back to parent",
+          "addChild": "Add submodule",
+          "addFeature": "Add feature"
+        },
+        "children": {
+          "title": "Submodules",
+          "empty": "No submodules yet.",
+          "sortOrder": "Order #{order}"
+        },
+        "features": {
+          "title": "Features",
+          "empty": "No features yet."
+        },
+        "new": {
+          "title": "Create module"
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Module name",
+              "placeholder": "e.g. Checkout"
+            },
+            "description": {
+              "label": "Description",
+              "placeholder": "Optional description"
+            },
+            "parent": {
+              "label": "Parent module",
+              "rootOption": "Root module",
+              "hint": "Leave empty to create a root module."
+            }
+          },
+          "errors": {
+            "required": "This field is required.",
+            "invalidParent": "Cannot use the module as its own parent.",
+            "validation": "Please review the information.",
+            "generic": "Something went wrong."
+          },
+          "hint": "You can reorganize modules later."
+        },
+        "edit": {
+          "title": "Edit module",
+          "subtitle": "Updating {name}",
+          "dangerZone": {
+            "title": "Delete module",
+            "description": "Deleting a module also removes its submodules and features.",
+            "delete": "Delete module"
+          }
+        },
+        "errors": {
+          "title": "Module failed to load",
+          "description": "We couldn't retrieve the module. Please try again.",
+          "retry": "Retry",
+          "back": "Back to project"
+        }
+      },
+      "feature": {
+        "header": {
+          "project": "Project: {id}",
+          "updated": "Last update: {date}",
+          "viewModule": "View module"
+        },
+        "description": {
+          "title": "Description",
+          "empty": "No description provided."
+        },
+        "issues": {
+          "title": "Linked issues & PRs",
+          "issueLink": "Issue",
+          "pullRequestLink": "Pull request",
+          "empty": "No linked issues."
+        },
+        "versions": {
+          "title": "Versions",
+          "label": "v{version}",
+          "rollback": "Rollback",
+          "empty": "No versions published."
+        },
+        "new": {
+          "title": "Create feature"
+        },
+        "edit": {
+          "title": "Edit feature",
+          "subtitle": "Updating {name}",
+          "dangerZone": {
+            "title": "Delete feature",
+            "description": "Deleting a feature removes all its history.",
+            "delete": "Delete feature"
+          }
+        },
+        "form": {
+          "fields": {
+            "name": {
+              "label": "Feature name",
+              "placeholder": "e.g. 3DS v2"
+            },
+            "description": {
+              "label": "Description",
+              "placeholder": "Optional description"
+            },
+            "module": {
+              "label": "Module",
+              "placeholder": "Select a module"
+            },
+            "status": {
+              "label": "Status"
+            },
+            "priority": {
+              "label": "Priority"
+            }
+          },
+          "errors": {
+            "required": "This field is required.",
+            "validation": "Please review the information.",
+            "generic": "Something went wrong."
+          },
+          "hint": "Keep information concise to speed up reviews."
+        },
+        "errors": {
+          "title": "Feature failed to load",
+          "description": "We couldn't retrieve the feature. Please try again.",
+          "retry": "Retry",
+          "back": "Back to module"
+        }
       }
     },
     "sidebar": {
