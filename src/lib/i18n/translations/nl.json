@@ -264,7 +264,27 @@
           "error": "Voorkeuren konden niet worden bijgewerkt."
         },
         "save": "Wijzigingen opslaan",
-        "hint": "Je voorkeuren worden onmiddellijk opgeslagen."
+        "hint": "Je voorkeuren worden onmiddellijk opgeslagen.",
+        "github": {
+          "title": "GitHub-token",
+          "subtitle": "Sla een persoonlijk access token met repo-rechten op om privérepositories te koppelen.",
+          "maskedLabel": "Opgeslagen token",
+          "maskedHint": "Er is een token opgeslagen. Je kunt het hieronder overschrijven of verwijderen.",
+          "inputLabel": "Persoonlijk access token",
+          "placeholder": "ghp_xxxxxxxxxxxxxxxxx",
+          "save": "Token opslaan",
+          "disconnect": "Token verwijderen",
+          "noToken": "Nog geen token opgeslagen.",
+          "alerts": {
+            "saved": "GitHub-token opgeslagen.",
+            "removed": "GitHub-token verwijderd.",
+            "error": "Het GitHub-token kon niet worden bijgewerkt.",
+            "validation": "Voer een geldig persoonlijk access token in."
+          },
+          "errors": {
+            "required": "Voer je persoonlijk access token in."
+          }
+        }
       }
     },
     "projects": {

@@ -339,7 +339,27 @@
           "error": "We couldn't update your preferences."
         },
         "save": "Save changes",
-        "hint": "Your preferences are saved instantly."
+        "hint": "Your preferences are saved instantly.",
+        "github": {
+          "title": "GitHub token",
+          "subtitle": "Store a personal access token with repo access to link private repositories.",
+          "maskedLabel": "Stored token",
+          "maskedHint": "A token is stored. You can overwrite it or remove it below.",
+          "inputLabel": "Personal access token",
+          "placeholder": "ghp_xxxxxxxxxxxxxxxxx",
+          "save": "Save token",
+          "disconnect": "Remove token",
+          "noToken": "No token saved yet.",
+          "alerts": {
+            "saved": "GitHub token saved.",
+            "removed": "GitHub token removed.",
+            "error": "We couldn't update the GitHub token.",
+            "validation": "Please provide a valid personal access token."
+          },
+          "errors": {
+            "required": "Enter your personal access token."
+          }
+        }
       }
     },
     "projects": {

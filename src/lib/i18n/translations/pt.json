@@ -339,7 +339,27 @@
           "error": "Não foi possível atualizar suas preferências."
         },
         "save": "Salvar alterações",
-        "hint": "Suas preferências são salvas instantaneamente."
+        "hint": "Suas preferências são salvas instantaneamente.",
+        "github": {
+          "title": "Token do GitHub",
+          "subtitle": "Armazene um token de acesso pessoal com escopo repo para vincular repositórios privados.",
+          "maskedLabel": "Token armazenado",
+          "maskedHint": "Há um token armazenado. Você pode sobrescrevê-lo ou removê-lo abaixo.",
+          "inputLabel": "Token de acesso pessoal",
+          "placeholder": "ghp_xxxxxxxxxxxxxxxxx",
+          "save": "Salvar token",
+          "disconnect": "Remover token",
+          "noToken": "Nenhum token salvo ainda.",
+          "alerts": {
+            "saved": "Token do GitHub salvo.",
+            "removed": "Token do GitHub removido.",
+            "error": "Não foi possível atualizar o token do GitHub.",
+            "validation": "Informe um token de acesso pessoal válido."
+          },
+          "errors": {
+            "required": "Informe seu token de acesso pessoal."
+          }
+        }
       }
     },
     "projects": {

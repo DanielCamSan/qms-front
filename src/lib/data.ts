@@ -304,6 +304,27 @@ export async function fetchGetUserProfile(token: string): Promise<User> {
     throw error;
   }
 }
+
+export async function fetchGetUserById(
+  token: string,
+  userId: string
+): Promise<User> {
+  try {
+    return await fetchWithAuth(
+      `${apiUrl}/users/${userId}`,
+      {
+        method: "GET",
+      },
+      token
+    ).then((res) => {
+      if (!res.ok) throw res;
+      return res.json();
+    });
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
 export async function fetchChangePassword({
   token,
   currentPassword,
@@ -357,22 +378,51 @@ export async function fetchUpdateCurrentUser(
     throw error;
   }
 }
-// USERS & ADMIN
-export async function fetchGetUsers(token: string): Promise<User[]> {
+
+export async function fetchConnectGithubToken(
+  token: string,
+  githubToken: string
+): Promise<{ success: boolean }> {
   try {
     const res = await fetchWithAuth(
-      `${apiUrl}/users/me/profile`,
-      { method: "GET" },
+      `${apiUrl}/github/me/token`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: githubToken }),
+      },
       token
     );
     if (!res.ok) throw res;
-    return (await res.json()) as User[];
+    return (await res.json()) as { success: boolean };
   } catch (error) {
-    console.error("Database Error:", error);
     await handleUnauthorized(error);
     throw error;
   }
 }
+
+export async function fetchDeleteGithubToken(
+  token: string
+): Promise<{ success: boolean }> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/github/me/token`,
+      { method: "DELETE" },
+      token
+    );
+    if (!res.ok) throw res;
+    if (res.status === 204) {
+      return { success: true };
+    }
+    return (await res.json()) as { success: boolean };
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
+
 
 export async function fetchDeleteUser({
   token,

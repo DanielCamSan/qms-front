@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
-
 import { fetchGetUserProfile } from "@/lib/data";
 import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
@@ -17,15 +16,15 @@ export default async function GeneralSettingsPage() {
   let profile: User | null = null;
   try {
     profile = await fetchGetUserProfile(session.token);
+    console.log("Profile is: ",profile);    
   } catch (error) {
     await handleUnauthorized(error);
     profile = null;
   }
 
   const initial = {
-    apiTokenMasked:
-      profile?.apiTokenMasked ?? t("api.placeholder"),
-    darkMode: Boolean(profile?.preferences?.darkMode),
+    apiTokenMasked: profile?.githubIdentity?.accessToken ?? t("api.placeholder"),
+    hasGithubToken: Boolean(profile?.githubIdentity),
   };
 
   return (

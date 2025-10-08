@@ -285,7 +285,27 @@
           "error": "Impossible de mettre à jour vos préférences."
         },
         "save": "Enregistrer les modifications",
-        "hint": "Vos préférences sont enregistrées instantanément."
+        "hint": "Vos préférences sont enregistrées instantanément.",
+        "github": {
+          "title": "Token GitHub",
+          "subtitle": "Enregistrez un jeton d'accès personnel avec le scope repo pour lier des dépôts privés.",
+          "maskedLabel": "Token enregistré",
+          "maskedHint": "Un token est enregistré. Vous pouvez le remplacer ou le supprimer ci-dessous.",
+          "inputLabel": "Token d'accès personnel",
+          "placeholder": "ghp_xxxxxxxxxxxxxxxxx",
+          "save": "Enregistrer le token",
+          "disconnect": "Supprimer le token",
+          "noToken": "Aucun token enregistré pour le moment.",
+          "alerts": {
+            "saved": "Token GitHub enregistré.",
+            "removed": "Token GitHub supprimé.",
+            "error": "Impossible de mettre à jour le token GitHub.",
+            "validation": "Veuillez fournir un token d'accès personnel valide."
+          },
+          "errors": {
+            "required": "Saisissez votre token d'accès personnel."
+          }
+        }
       }
     },
     "projects": {
