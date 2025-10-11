@@ -106,7 +106,6 @@ export async function deleteSession() {
     path: '/',
     domain: cookieDomain
   };
-
   cookieStore.set('session', ``, expiredCookieOptions);
   cookieStore.set('store-data', '', expiredCookieOptions);
   cookieStore.set('refresh-info', '', expiredCookieOptions);

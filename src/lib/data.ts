@@ -299,7 +299,6 @@ export async function fetchGetUserProfile(token: string): Promise<User> {
       return res.json();
     });
   } catch (error) {
-    console.error("Database Error:", error);
     await handleUnauthorized(error);
     throw error;
   }
