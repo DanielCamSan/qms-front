@@ -18,10 +18,6 @@ import {
 } from "@/lib/definitions";
 import { generatePagination } from "@/lib/utils";
 
-type ProjectSummary = Pick<
-  Project,
-  "id" | "name" | "status" | "updatedAt" | "slug" | "visibility"
->;
 
 type Pagination = {
   total: number;
@@ -32,7 +28,7 @@ type Pagination = {
 };
 
 type Props = {
-  items: ProjectSummary[];
+  items: Project[];
   pagination: Pagination;
 };
 

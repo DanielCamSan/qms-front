@@ -1,4 +1,5 @@
 import { ISODateString, ProjectStatus, Visibility } from "../definitions";
+import { Module } from "./module";
 
 export type Project = {
   id: string;
@@ -12,6 +13,7 @@ export type Project = {
   createdAt: ISODateString;
   updatedAt: ISODateString;
   ownerId: string;
+  modules: Module[]
 };
 
 // DTOs (alineados a tu back)

@@ -212,8 +212,6 @@ export async function fetchWithAuth(
   options: RequestInit = {},
   accessToken: string
 ) {
-  console.log(`[fetchWithAuth] Intentando con token:`, accessToken, url);
-
   let response = await fetch(url, {
     ...options,
     headers: {

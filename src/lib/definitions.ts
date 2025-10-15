@@ -115,3 +115,35 @@ export enum ReviewStatus {
   APPROVED = 'APPROVED',
   CHANGES_REQUESTED = 'CHANGES_REQUESTED',
 }
+
+
+
+export type StructureFeatureItem = {
+  type: "feature";
+  id: string;
+  moduleId: string;
+  name: string;
+  status: string;      // usar tus enums si lo deseas
+  priority: string | null;
+  sortOrder: number;
+  order: number;
+  createdAt: string;
+  publishedVersionId: string | null;
+};
+export type StructureModuleNode = {
+  type: "module";
+  id: string;
+  name: string;
+  parentModuleId: string | null;
+  isRoot: boolean;
+  sortOrder: number;
+  order: number;
+  createdAt: string;
+  publishedVersionId: string | null;
+  items: Array<StructureModuleNode | StructureFeatureItem>;
+};
+
+export type ProjectStructureResponse = {
+  projectId: string;
+  modules: StructureModuleNode[];
+};

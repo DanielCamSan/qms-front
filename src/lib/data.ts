@@ -2,6 +2,8 @@ import {
   ResponseLogin,
   ResponseForgotPass,
   ResponseRefresh,
+  ProjectStructureResponse,
+  StructureModuleNode,
 } from "@/lib/definitions";
 import { fetchWithAuth } from "./utils";
 import { handleUnauthorized } from "@/lib/server-auth-helpers";
@@ -658,7 +660,24 @@ export async function fetchDeleteModule(
     throw error;
   }
 }
-
+export async function fetchModuleStructure(
+  token: string,
+  moduleId: string
+): Promise<{ projectId: string; moduleId: string; node: StructureModuleNode }> {
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/modules/${moduleId}/structure`,
+      { method: "GET" },
+      token
+    );
+    if (!res.ok) throw res;
+    const payload = await res.json();
+    return payload as { projectId: string; moduleId: string; node: StructureModuleNode };
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
 
 // FEATURES
 
@@ -744,6 +763,35 @@ export async function fetchDeleteFeature(
     );
     if (!res.ok) throw res;
     return await res.json();
+  } catch (error) {
+    await handleUnauthorized(error);
+    throw error;
+  }
+}
+
+
+//TREE
+
+export async function fetchProjectStructure(
+  token: string,
+  projectId: string,
+  params?: { page?: number; limit?: number; sort?: string; q?: string }
+): Promise<ProjectStructureResponse> {
+  const query = new URLSearchParams();
+  if (params?.page) query.set("page", String(params.page));
+  if (params?.limit) query.set("limit", String(params.limit));
+  if (params?.sort) query.set("sort", params.sort);
+  if (params?.q) query.set("q", params.q);
+
+  try {
+    const res = await fetchWithAuth(
+      `${apiUrl}/projects/${projectId}/structure?${query.toString()}`,
+      { method: "GET" },
+      token
+    );
+    if (!res.ok) throw res;
+    const payload = (await res.json()) as ProjectStructureResponse;
+    return payload;
   } catch (error) {
     await handleUnauthorized(error);
     throw error;

@@ -25,13 +25,13 @@ export default async function ProjectsPage({
   const token = session.token;
   const t = await getTranslations("app.projects.list");
 
-  const page = Math.max(1, Number.parseInt(searchParams?.page ?? "1", 10) || 1);
+  const page = Math.max(1, Number.parseInt((await searchParams)?.page ?? "1", 10) || 1);
   const limit = Math.max(
     1,
-    Number.parseInt(searchParams?.limit ?? "20", 10) || 20
+    Number.parseInt((await searchParams)?.limit ?? "20", 10) || 20
   );
-  const q = searchParams?.q?.trim();
-  const sort = searchParams?.sort ?? "-updatedAt";
+  const q = (await searchParams)?.q?.trim();
+  const sort = (await searchParams)?.sort ?? "-updatedAt";
 
   let result;
   try {

@@ -1,32 +1,26 @@
 import Link from "next/link";
-import {
-  getFormatter,
-  getTranslations,
-} from "next-intl/server";
-import {
-  notFound,
-  redirect,
-} from "next/navigation";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { notFound, redirect } from "next/navigation";
 
-import { ProjectStatus } from "@/lib/definitions";
-import {
-  fetchProjectById,
-  fetchProjectModules,
-} from "@/lib/data";
+import { ProjectStatus, ProjectStructureResponse, StructureFeatureItem, StructureModuleNode } from "@/lib/definitions";
+import { fetchProjectById, fetchProjectStructure } from "@/lib/data";
 import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { Module } from "@/lib/model-definitions/module";
 import type { Project } from "@/lib/model-definitions/project";
+import type { Feature } from "@/lib/model-definitions/feature";
 import ProjectDetailClient from "@/ui/components/projects/project-detail.client";
 import { RoutesEnum } from "@/lib/utils";
 
 type Params = { projectId: string };
-
 export default async function ProjectDetailPage({
   params,
 }: {
-  params: Params;
+  // 👇 Next 15+ App Router: params es Promise
+  params: Promise<Params>;
 }) {
+  const { projectId } = await params;
+
   const session = await getSession();
   if (!session?.token) redirect(RoutesEnum.LOGIN);
 
@@ -34,8 +28,7 @@ export default async function ProjectDetailPage({
   const tStatus = await getTranslations("app.common.projectStatus");
   const formatter = await getFormatter();
 
-  const { projectId } = params;
-
+  // 1) Proyecto
   let project: Project | null = null;
   try {
     project = await fetchProjectById(session.token, projectId);
@@ -47,15 +40,12 @@ export default async function ProjectDetailPage({
     }
     throw error;
   }
-
   if (!project) notFound();
 
-  let modulesResult: Awaited<
-    ReturnType<typeof fetchProjectModules>
-  >;
+  // 2) Estructura (módulos + submódulos + features)
+  let structureResult: ProjectStructureResponse;
   try {
-    modulesResult = await fetchProjectModules(session.token, projectId, {
-      parent: null,
+    structureResult = await fetchProjectStructure(session.token, projectId, {
       sort: "sortOrder",
       limit: 100,
     });
@@ -66,13 +56,9 @@ export default async function ProjectDetailPage({
     }
     throw error;
   }
-
-  const modules: Module[] = modulesResult.items ?? [];
-
-  const formattedUpdatedAt = formatter.dateTime(
-    new Date(project.updatedAt),
-    { dateStyle: "medium" }
-  );
+  const formattedUpdatedAt = formatter.dateTime(new Date(project.updatedAt), {
+    dateStyle: "medium",
+  });
 
   return (
     <div className="grid gap-6">
@@ -83,13 +69,11 @@ export default async function ProjectDetailPage({
             {t("updated", { date: formattedUpdatedAt })}
           </p>
         </div>
-        <ProjectStatusBadge
-          status={project.status}
-          label={tStatus(project.status)}
-        />
+        <ProjectStatusBadge status={project.status} label={tStatus(project.status)} />
       </header>
 
-      <ProjectDetailClient project={project} rootModules={modules} />
+      {/* Tu cliente ahora recibe toda la jerarquía desde root */}
+      <ProjectDetailClient project={project} structureModules={structureResult.modules} />
 
       <div>
         <Link
