@@ -6,12 +6,13 @@ import {
   updateFeature,
 } from "@/app/app/projects/[projectId]/features/[featureId]/edit/actions";
 import { fetchFeatureById, fetchProjectModules } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
+
 import { getSession } from "@/lib/session";
 import type { Feature } from "@/lib/model-definitions/feature";
 import type { Module } from "@/lib/model-definitions/module";
 import { RoutesEnum } from "@/lib/utils";
 import { FeatureForm } from "@/ui/components/projects/FeatureForm.client";
+import { handlePageError } from "@/lib/handle-page-error";
 
 type Params = { projectId: string; featureId: string };
 
@@ -30,13 +31,8 @@ export default async function EditFeaturePage({
   try {
     feature = await fetchFeatureById(session.token, featureId);
   } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response) {
-      if (error.status === 404) notFound();
-      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  await handlePageError(error);
+}
   if (!feature) notFound();
 
   let modulesRes: Awaited<
@@ -47,15 +43,11 @@ export default async function EditFeaturePage({
       limit: 500,
       sort: "-updatedAt",
     });
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response && error.status === 403) {
-      redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
-  const modules: Module[] = modulesRes.items ?? [];
+  const modules: Module[] = modulesRes!.items ?? [];
 
   return (
     <div className="max-w-3xl space-y-6 p-6 md:p-10">

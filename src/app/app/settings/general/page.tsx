@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { fetchGetUserProfile } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { User } from "@/lib/model-definitions/user";
 import { RoutesEnum } from "@/lib/utils";
 import SettingsGeneralClient from "@/ui/components/settings/SettingsGeneralClient";
+import { handlePageError } from "@/lib/handle-page-error";
 
 export default async function GeneralSettingsPage() {
   const session = await getSession();
@@ -16,10 +16,9 @@ export default async function GeneralSettingsPage() {
   let profile: User | null = null;
   try {
     profile = await fetchGetUserProfile(session.token);
-  } catch (error) {
-    await handleUnauthorized(error);
-    profile = null;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   const initial = {
     apiTokenMasked: profile?.githubIdentity?.accessToken ?? t("api.placeholder"),

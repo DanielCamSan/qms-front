@@ -4,13 +4,15 @@ import { notFound, redirect } from "next/navigation";
 
 import { ProjectStatus, ProjectStructureResponse, StructureFeatureItem, StructureModuleNode } from "@/lib/definitions";
 import { fetchProjectById, fetchProjectStructure } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { Module } from "@/lib/model-definitions/module";
 import type { Project } from "@/lib/model-definitions/project";
 import type { Feature } from "@/lib/model-definitions/feature";
 import ProjectDetailClient from "@/ui/components/projects/project-detail.client";
 import { RoutesEnum } from "@/lib/utils";
+import { handlePageError } from "@/lib/handle-page-error";
+import { deleteProject } from "@/app/app/projects/actions";
+
 
 type Params = { projectId: string };
 export default async function ProjectDetailPage({
@@ -32,30 +34,23 @@ export default async function ProjectDetailPage({
   let project: Project | null = null;
   try {
     project = await fetchProjectById(session.token, projectId);
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response) {
-      if (error.status === 404) notFound();
-      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
   if (!project) notFound();
 
   // 2) Estructura (módulos + submódulos + features)
-  let structureResult: ProjectStructureResponse;
+  let structureResult: ProjectStructureResponse | null = null;
   try {
     structureResult = await fetchProjectStructure(session.token, projectId, {
       sort: "sortOrder",
       limit: 100,
     });
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response && error.status === 403) {
-      redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
+  if (!structureResult) notFound();
+
   const formattedUpdatedAt = formatter.dateTime(new Date(project.updatedAt), {
     dateStyle: "medium",
   });
@@ -63,13 +58,42 @@ export default async function ProjectDetailPage({
   return (
     <div className="grid gap-6">
       <header className="flex items-center justify-between">
-        <div>
+               <div>
           <h1 className="text-2xl font-bold">{project.name}</h1>
-          <p className="text-sm text-muted-foreground">
+          {project.description && (
+            <p className="text-sm mt-1">{project.description}</p>
+          )}
+          <p className="text-xs text-muted-foreground mt-1">
             {t("updated", { date: formattedUpdatedAt })}
           </p>
         </div>
-        <ProjectStatusBadge status={project.status} label={tStatus(project.status)} />
+
+        <div className="flex flex-col items-end gap-2">
+          <ProjectStatusBadge
+            status={project.status}
+            label={tStatus(project.status)}
+          />
+
+          {/* Botones de acción */}
+          <div className="flex gap-2">
+            <Link
+              href={`/app/projects/${project.id}/edit`}
+              className="inline-flex items-center rounded-lg border px-3 py-1.5 text-sm transition-colors hover:bg-muted"
+            >
+              {t("actions.edit", { default: "Editar" })}
+            </Link>
+
+            {/* Eliminar proyecto (igual patrón que en /edit) */}
+            <form action={deleteProject.bind(null, project.id)}>
+              <button
+                type="submit"
+                className="inline-flex items-center rounded-lg border border-destructive bg-destructive px-3 py-1.5 text-sm font-medium text-destructive-foreground transition-colors"
+              >
+                {t("actions.delete", { default: "Eliminar" })}
+              </button>
+            </form>
+          </div>
+        </div>
       </header>
 
       {/* Tu cliente ahora recibe toda la jerarquía desde root */}

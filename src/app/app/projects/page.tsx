@@ -7,6 +7,7 @@ import { fetchProjectsMine } from "@/lib/data";
 import { RoutesEnum } from "@/lib/utils";
 import { getSession } from "@/lib/session";
 import ProjectsList from "@/ui/components/projects/projects-list.client";
+import { handlePageError } from "@/lib/handle-page-error";
 
 type SearchParams = {
   page?: string;
@@ -36,15 +37,14 @@ export default async function ProjectsPage({
   let result;
   try {
     result = await fetchProjectsMine(token, { page, limit, q, sort });
-  } catch (error) {
-    // handleUnauthorized already redirects on 401
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
-  const items = result.items ?? [];
-  const total = Math.max(0, Number(result.total) || items.length);
-  const currentPage = Math.max(1, Number(result.page) || page);
-  const currentLimit = Math.max(1, Number(result.limit) || limit);
+  const items = result?.items ?? [];
+  const total = Math.max(0, Number(result?.total) || items.length);
+  const currentPage = Math.max(1, Number(result?.page) || page);
+  const currentLimit = Math.max(1, Number(result?.limit) || limit);
 
   return (
     <div className="space-y-6">

@@ -6,11 +6,11 @@ import {
   updateModule,
 } from "@/app/app/projects/[projectId]/modules/[moduleId]/edit/actions";
 import { fetchModuleById, fetchProjectModules } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { Module } from "@/lib/model-definitions/module";
 import { RoutesEnum } from "@/lib/utils";
 import { ModuleForm } from "@/ui/components/projects/ModuleForm.client";
+import { handlePageError } from "@/lib/handle-page-error";
 
 type Params = { projectId: string; moduleId: string };
 
@@ -29,13 +29,8 @@ export default async function EditModulePage({
   try {
     currentModule = await fetchModuleById(session.token, moduleId);
   } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response) {
-      if (error.status === 404) notFound();
-      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  await handlePageError(error);
+}
   if (!currentModule) notFound();
 
   let modulesRes: Awaited<
@@ -45,15 +40,11 @@ export default async function EditModulePage({
     modulesRes = await fetchProjectModules(session.token, projectId, {
       limit: 500,
     });
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response && error.status === 403) {
-      redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
-  const moduleOptions: Module[] = modulesRes.items ?? [];
+  const moduleOptions: Module[] = modulesRes!.items ?? [];
 
   return (
     <div className="max-w-3xl space-y-6 p-6 md:p-10">

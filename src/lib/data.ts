@@ -23,6 +23,7 @@ import {
   Feature,
   UpdateFeatureDto,
 } from "./model-definitions/feature";
+import { handlePageError } from "./handle-page-error";
 
 type PaginatedResponse<T> = {
   items: T[];
@@ -468,7 +469,7 @@ export async function fetchProjectsMine(
     const payload = await res.json();
     return normalizePaginated<Project>(payload);
   } catch (error) {
-    await handleUnauthorized(error);
+    await handlePageError(error);
     throw error;
   }
 }

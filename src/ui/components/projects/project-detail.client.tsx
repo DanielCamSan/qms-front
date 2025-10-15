@@ -174,7 +174,7 @@ function ModuleNode({
               </li>
             ) : (
               <li key={item.id} className="ml-8">
-                <FeatureRow feature={item} />
+                <FeatureRow feature={item} projectId={projectId} />
               </li>
             )
           )}
@@ -183,13 +183,21 @@ function ModuleNode({
     </details>
   );
 }
-
-function FeatureRow({ feature }: { feature: StructureFeatureItem }) {
-  return (
-    <div className="flex items-center justify-between rounded-md border px-2 py-1">
+function FeatureRow({
+  feature,
+  projectId,
+}: {
+  feature: StructureFeatureItem;
+  projectId: string;
+}) {
+ return (
+    <Link
+      href={`/app/projects/${projectId}/features/${feature.id}`}
+      className="flex items-center justify-between rounded-md border px-2 py-1 text-sm transition-colors hover:border-muted hover:bg-muted/40"
+    >
       <div className="flex items-center gap-2">
         <span aria-hidden>⚙️</span>
-        <span className="text-sm">{feature.name}</span>
+        <span>{feature.name}</span>
       </div>
       <div className="flex items-center gap-2">
         <StatusBadge status={feature.status as Feature["status"]} />
@@ -197,7 +205,7 @@ function FeatureRow({ feature }: { feature: StructureFeatureItem }) {
           <PriorityBadge priority={feature.priority as Feature["priority"]} />
         )}
       </div>
-    </div>
+    </Link>
   );
 }
 

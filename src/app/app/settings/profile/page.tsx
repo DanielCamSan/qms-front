@@ -2,11 +2,11 @@ import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 import { fetchGetUserProfile } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { User } from "@/lib/model-definitions/user";
 import { RoutesEnum } from "@/lib/utils";
 import SettingsProfileClient from "@/ui/components/settings/SettingProfileClient";
+import { handlePageError } from "@/lib/handle-page-error";
 
 export default async function ProfileSettingsPage() {
   const session = await getSession();
@@ -17,10 +17,9 @@ export default async function ProfileSettingsPage() {
   let profile: User | null = null;
   try {
     profile = await fetchGetUserProfile(session.token);
-  } catch (error) {
-    await handleUnauthorized(error);
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   const defaultName =
     profile?.name?.trim() ??

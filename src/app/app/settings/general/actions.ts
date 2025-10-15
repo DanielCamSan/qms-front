@@ -8,9 +8,9 @@ import {
   fetchDeleteGithubToken,
   fetchUpdateCurrentUser,
 } from '@/lib/data';
-import { handleUnauthorized } from '@/lib/server-auth-helpers';
 import { getSession } from '@/lib/session';
 import { RoutesEnum } from '@/lib/utils';
+import { handlePageError } from '@/lib/handle-page-error';
 
 export type GeneralFormState = {
   message?: string;
@@ -42,13 +42,9 @@ export async function updateGeneralPreferencesAction(
     await fetchUpdateCurrentUser(session.token, {
       preferences: { darkMode },
     });
-  } catch (error) {
-    await handleUnauthorized(error);
-    return {
-      success: false,
-      message: 'error',
-    };
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   revalidatePath('/app/settings/general');
   revalidatePath('/app');
@@ -77,13 +73,9 @@ export async function upsertGithubTokenAction(
 
   try {
     await fetchConnectGithubToken(session.token, rawToken);
-  } catch (error) {
-    await handleUnauthorized(error);
-    return {
-      success: false,
-      message: 'error',
-    };
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   revalidatePath('/app/settings/general');
   revalidatePath('/app');
@@ -104,10 +96,9 @@ export async function deleteGithubTokenAction(): Promise<{
 
   try {
     await fetchDeleteGithubToken(session.token);
-  } catch (error) {
-    await handleUnauthorized(error);
-    return { success: false, message: 'error' };
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   revalidatePath('/app/settings/general');
   revalidatePath('/app');

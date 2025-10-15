@@ -1,3 +1,4 @@
+//src/app/app/projects/[projectId]/edit/page.tsx
 import { getFormatter, getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
 
@@ -6,11 +7,11 @@ import {
   updateProject,
 } from "@/app/app/projects/actions";
 import { fetchProjectById } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { Project } from "@/lib/model-definitions/project";
 import { RoutesEnum } from "@/lib/utils";
 import { ProjectForm } from "@/ui/components/projects/ProjectForm.client";
+import { handlePageError } from "@/lib/handle-page-error";
 
 type Params = { projectId: string };
 
@@ -30,14 +31,9 @@ export default async function EditProjectPage({
   let project: Project | null = null;
   try {
     project = await fetchProjectById(session.token, projectId);
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response) {
-      if (error.status === 404) notFound();
-      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   if (!project) notFound();
 

@@ -7,10 +7,10 @@ import {
   fetchChangePassword,
   fetchUpdateCurrentUser,
 } from '@/lib/data';
-import { handleUnauthorized } from '@/lib/server-auth-helpers';
 import { getSession } from '@/lib/session';
 import type { UpdateUserDto } from '@/lib/model-definitions/user';
 import { RoutesEnum } from '@/lib/utils';
+import { handlePageError } from '@/lib/handle-page-error';
 
 export type ProfileFormState = {
   fieldErrors?: {
@@ -68,7 +68,7 @@ export async function updateProfileAction(
   try {
     await fetchUpdateCurrentUser(session.token, dto);
   } catch (error) {
-    await handleUnauthorized(error);
+    await handlePageError(error);
     if (error instanceof Response) {
       if (error.status === 400) {
         return {
@@ -135,7 +135,7 @@ export async function updatePasswordAction(
       newPassword,
     });
   } catch (error) {
-    await handleUnauthorized(error);
+    await handlePageError(error);
     if (error instanceof Response) {
       if (error.status === 400) {
         return {

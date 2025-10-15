@@ -1,24 +1,13 @@
 import Link from "next/link";
-import {
-  getFormatter,
-  getTranslations,
-} from "next-intl/server";
-import {
-  notFound,
-  redirect,
-} from "next/navigation";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { notFound, redirect } from "next/navigation";
 
-import {
-  FeaturePriority,
-  FeatureStatus,
-} from "@/lib/definitions";
-import {
-  fetchFeatureById,
-} from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
+import { FeaturePriority, FeatureStatus } from "@/lib/definitions";
+import { fetchFeatureById } from "@/lib/data";
 import { getSession } from "@/lib/session";
 import type { Feature } from "@/lib/model-definitions/feature";
 import { RoutesEnum } from "@/lib/utils";
+import { handlePageError } from "@/lib/handle-page-error";
 
 type Params = {
   projectId: string;
@@ -38,26 +27,19 @@ export default async function FeatureDetailPage({
   const tPriority = await getTranslations("app.common.featurePriority");
   const formatter = await getFormatter();
 
-  const { projectId, featureId } = params;
+  const { projectId, featureId } = await params;
 
   let feature: Feature | null = null;
   try {
     feature = await fetchFeatureById(session.token, featureId);
   } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response) {
-      if (error.status === 404) notFound();
-      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
+    await handlePageError(error);
   }
-
   if (!feature) notFound();
 
-  const formattedUpdatedAt = formatter.dateTime(
-    new Date(feature.updatedAt),
-    { dateStyle: "medium" }
-  );
+  const formattedUpdatedAt = formatter.dateTime(new Date(feature.updatedAt), {
+    dateStyle: "medium",
+  });
 
   return (
     <div className="grid gap-6">
@@ -128,9 +110,7 @@ export default async function FeatureDetailPage({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-muted-foreground">
-            {t("issues.empty")}
-          </p>
+          <p className="text-sm text-muted-foreground">{t("issues.empty")}</p>
         )}
       </section>
 
@@ -164,9 +144,7 @@ export default async function FeatureDetailPage({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-muted-foreground">
-            {t("versions.empty")}
-          </p>
+          <p className="text-sm text-muted-foreground">{t("versions.empty")}</p>
         )}
       </section>
     </div>

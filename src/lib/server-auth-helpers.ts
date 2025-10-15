@@ -1,31 +1,27 @@
-'use server';
+// src/lib/server-auth-helpers.ts
 
-import { deleteSession } from '@/lib/session';
-import { redirect } from 'next/navigation';
-
-type HttpLikeError = {
-  status?: number;
-  statusCode?: number;
-  code?: string;
-};
-
-function toHttpError(e: unknown): HttpLikeError {
-  if (typeof e === 'object' && e !== null) {
-    const obj = e as Record<string, unknown>;
-    return {
-      status: typeof obj.status === 'number' ? obj.status : undefined,
-      statusCode: typeof obj.statusCode === 'number' ? obj.statusCode : undefined,
-      code: typeof obj.code === 'string' ? obj.code : undefined,
-    };
+/** Error de señal para 401/419 (token vencido/no válido) */
+export class UnauthorizedError extends Error {
+  constructor() {
+    super("Unauthorized");
+    this.name = "UnauthorizedError";
   }
-  return {};
 }
 
-export async function handleUnauthorized(error: unknown) {
-  const http = toHttpError(error);
-  const status = http.status ?? http.statusCode;
-  if (status === 401) {
-    await deleteSession();
-    redirect('/login');
+/** Type guard cómodo */
+function isResponse(e: unknown): e is Response {
+  return typeof Response !== "undefined" && e instanceof Response;
+}
+
+/**
+ * Si es 401/419 -> lanza UnauthorizedError (para que la página redirija a /api/auth/logout)
+ * Si no, no hace nada (deja que el caller maneje 403/404 u otros).
+ */
+export async function handleUnauthorized(error: unknown): Promise<void> {
+  if (isResponse(error)) {
+    if (error.status === 401 || error.status === 419) {
+      throw new UnauthorizedError();
+    }
   }
+  // no-op para otros casos
 }

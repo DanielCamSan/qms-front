@@ -10,12 +10,12 @@ import {
   fetchModuleById,
   fetchModuleStructure,
 } from "@/lib/data";
-import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { Feature } from "@/lib/model-definitions/feature";
 import type { Module } from "@/lib/model-definitions/module";
 import { RoutesEnum } from "@/lib/utils";
 import ModuleItemsTree from "@/ui/components/projects/ModuleItemsTree";
+import { handlePageError } from "@/lib/handle-page-error";
 
 
 type Params = {
@@ -41,14 +41,9 @@ export default async function ModuleDetailPage({
   let currentModule: Module | null = null;
   try {
     currentModule = await fetchModuleById(session.token, moduleId);
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response) {
-      if (error.status === 404) notFound();
-      if (error.status === 403) redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
   if (!currentModule) notFound();
 
   // 2) Árbol completo del módulo (intercalado y ordenado)
@@ -56,13 +51,9 @@ export default async function ModuleDetailPage({
   try {
     const { node } = await fetchModuleStructure(session.token, moduleId);
     structureNode = node;
-  } catch (error) {
-    await handleUnauthorized(error);
-    if (error instanceof Response && error.status === 403) {
-      redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
-  }
+  }  catch (error) {
+  await handlePageError(error);
+}
 
   const formattedUpdatedAt = formatter.dateTime(
     new Date(currentModule.updatedAt),
@@ -125,12 +116,12 @@ export default async function ModuleDetailPage({
           </div>
         </div>
 
-        {structureNode.items.length === 0 ? (
+        {structureNode!.items.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("children.empty")}</p>
         ) : (
           <ModuleItemsTree
             projectId={projectId}
-            root={structureNode}     // 👈 pasamos el nodo raíz
+            root={structureNode!}     // 👈 pasamos el nodo raíz
           />
         )}
       </section>
