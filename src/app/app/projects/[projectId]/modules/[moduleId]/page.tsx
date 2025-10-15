@@ -5,17 +5,18 @@ import { notFound, redirect } from "next/navigation";
 import {
   FeatureStatus,
   StructureModuleNode,
-  StructureFeatureItem,
 } from "@/lib/definitions";
 import {
   fetchModuleById,
-  fetchModuleStructure, // 👈 nuevo fetch
+  fetchModuleStructure,
 } from "@/lib/data";
 import { handleUnauthorized } from "@/lib/server-auth-helpers";
 import { getSession } from "@/lib/session";
 import type { Feature } from "@/lib/model-definitions/feature";
 import type { Module } from "@/lib/model-definitions/module";
 import { RoutesEnum } from "@/lib/utils";
+import ModuleItemsTree from "@/ui/components/projects/ModuleItemsTree";
+
 
 type Params = {
   projectId: string;
@@ -25,7 +26,6 @@ type Params = {
 export default async function ModuleDetailPage({
   params,
 }: {
-  // 👇 Next 15+: params asíncrono
   params: Promise<Params>;
 }) {
   const { projectId, moduleId } = await params;
@@ -37,7 +37,7 @@ export default async function ModuleDetailPage({
   const tFeatureStatus = await getTranslations("app.common.featureStatus");
   const formatter = await getFormatter();
 
-  // 1) Datos del módulo (metadata)
+  // 1) Metadata del módulo
   let currentModule: Module | null = null;
   try {
     currentModule = await fetchModuleById(session.token, moduleId);
@@ -51,13 +51,11 @@ export default async function ModuleDetailPage({
   }
   if (!currentModule) notFound();
 
-  // 2) Estructura recursiva SOLO de este módulo (para respetar orden intercalado)
+  // 2) Árbol completo del módulo (intercalado y ordenado)
   let structureNode: StructureModuleNode;
   try {
     const { node } = await fetchModuleStructure(session.token, moduleId);
     structureNode = node;
-    console.log(structureNode);
-    
   } catch (error) {
     await handleUnauthorized(error);
     if (error instanceof Response && error.status === 403) {
@@ -86,7 +84,7 @@ export default async function ModuleDetailPage({
             </p>
           </div>
 
-          <div className="flex flex-col items-end gap-2 text-right text-xs text-muted-foreground">
+        <div className="flex flex-col items-end gap-2 text-right text-xs text-muted-foreground">
             {currentModule.parentModuleId ? (
               <Link
                 href={`/app/projects/${projectId}/modules/${currentModule.parentModuleId}`}
@@ -107,7 +105,7 @@ export default async function ModuleDetailPage({
         </div>
       </header>
 
-      {/* Items (orden real: módulos + features intercalados) */}
+      {/* Árbol expandible (módulos + features intercalados en orden) */}
       <section className="rounded-xl border bg-white p-4">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-semibold">{t("children.title")}</h2>
@@ -130,66 +128,14 @@ export default async function ModuleDetailPage({
         {structureNode.items.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("children.empty")}</p>
         ) : (
-          <ul className="space-y-2">
-            {structureNode.items.map((item) =>
-              item.type === "module" ? (
-                <li key={item.id}>
-                  <Link
-                    href={`/app/projects/${projectId}/modules/${item.id}`}
-                    className="flex items-center justify-between rounded-lg border border-transparent px-3 py-2 text-sm transition-colors hover:border-muted hover:bg-muted/40"
-                  >
-                    <span>{item.name}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {t("children.sortOrder", {
-                        order: item.sortOrder ?? 0,
-                      })}
-                    </span>
-                  </Link>
-                </li>
-              ) : (
-                <li key={item.id}>
-                  <Link
-                    href={`/app/projects/${projectId}/features/${item.id}`}
-                    className="flex items-center justify-between rounded-lg border border-transparent px-3 py-2 text-sm transition-colors hover:border-muted hover:bg-muted/40"
-                  >
-                    <div className="flex flex-col">
-                      <span className="font-medium">{item.name}</span>
-                      {/* El endpoint no trae description: omitimos/subtitulo opcional */}
-                    </div>
-                    <FeatureStatusBadge
-                      status={item.status as Feature["status"]}
-                      label={tFeatureStatus(item.status as Feature["status"])}
-                    />
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
+          <ModuleItemsTree
+            projectId={projectId}
+            root={structureNode}     // 👈 pasamos el nodo raíz
+          />
         )}
       </section>
     </div>
   );
 }
 
-/* ---------- UI helpers ---------- */
-
-function FeatureStatusBadge({
-  status,
-  label,
-}: {
-  status: Feature["status"];
-  label: string;
-}) {
-  const tone =
-    status === FeatureStatus.DONE
-      ? "border-blue-200 bg-blue-100 text-blue-800"
-      : status === FeatureStatus.IN_PROGRESS
-      ? "border-amber-200 bg-amber-100 text-amber-800"
-      : "border-slate-200 bg-slate-100 text-slate-800";
-
-  return (
-    <span className={`rounded-full border px-2 py-0.5 text-[10px] ${tone}`}>
-      {label}
-    </span>
-  );
-}
+/* ---------- (dejas tu FeatureStatusBadge si lo usas en otros lados) ---------- */

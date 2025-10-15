@@ -338,7 +338,9 @@
           "title": "Modules",
           "empty": "Aucun module pour le moment.",
           "sortOrder": "Ordre #{order}",
-          "noDescription": "Aucune description disponible"
+          "noDescription": "Aucune description disponible",
+          "expandAll": "Tout développer",
+          "collapseAll": "Tout réduire"
         }
       },
       "detailErrors": {

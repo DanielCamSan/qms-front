@@ -317,7 +317,9 @@
           "title": "Modules",
           "empty": "Nog geen modules.",
           "sortOrder": "Volgorde #{order}",
-          "noDescription": "Geen beschrijving beschikbaar"
+          "noDescription": "Geen beschrijving beschikbaar",
+          "expandAll": "Alles uitvouwen",
+          "collapseAll": "Alles samenvouwen"
         }
       },
       "detailErrors": {

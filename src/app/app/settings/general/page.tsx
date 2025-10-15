@@ -16,7 +16,6 @@ export default async function GeneralSettingsPage() {
   let profile: User | null = null;
   try {
     profile = await fetchGetUserProfile(session.token);
-    console.log("Profile is: ",profile);    
   } catch (error) {
     await handleUnauthorized(error);
     profile = null;

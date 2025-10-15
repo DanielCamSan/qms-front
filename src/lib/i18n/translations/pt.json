@@ -392,7 +392,9 @@
           "title": "Módulos",
           "empty": "Nenhum módulo por enquanto.",
           "sortOrder": "Ordem #{order}",
-          "noDescription": "Sem descrição disponível"
+          "noDescription": "Sem descrição disponível",
+          "expandAll": "Expandir tudo",
+          "collapseAll": "Colapsar tudo"
         }
       },
       "detailErrors": {

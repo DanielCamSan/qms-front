@@ -23,8 +23,8 @@ export default async function NewModulePage({
   const session = await getSession();
   if (!session?.token) redirect(RoutesEnum.LOGIN);
 
-  const { projectId } = params;
-  const preselectedParent = searchParams?.parent;
+  const { projectId } = await params;
+  const preselectedParent = (await searchParams)?.parent;
   const t = await getTranslations("app.projects.module.new");
 
   let modulesRes: Awaited<
