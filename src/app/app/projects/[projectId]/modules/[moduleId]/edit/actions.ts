@@ -14,6 +14,7 @@ import { RoutesEnum } from '@/lib/utils';
 import type {
   ModuleFormState,
 } from '../../new/actions';
+import { handlePageError } from '@/lib/handle-page-error';
 
 export async function updateModule(
   projectId: string,
@@ -84,25 +85,17 @@ export async function updateModule(
   }
   return prevState;
 }
-
-export async function deleteModule(
-  projectId: string,
-  moduleId: string
-): Promise<void> {
+export async function deleteModule(projectId: string, moduleId: string) {
   const session = await getSession();
   if (!session?.token) redirect(RoutesEnum.LOGIN);
 
   try {
     await fetchDeleteModule(session.token, moduleId);
-    revalidatePath(RoutesEnum.APP_PROJECTS);
-    revalidatePath(`/app/projects/${projectId}`);
-    redirect(`/app/projects/${projectId}`);
   } catch (error) {
-    if (error instanceof Response && error.status === 403) {
-      redirect(RoutesEnum.ERROR_UNAUTHORIZED);
-    }
-    throw error;
+    await handlePageError(error);
   }
+
+  redirect(`/app/projects/${projectId}`);
 }
 
 async function safeReadJson(res: Response) {

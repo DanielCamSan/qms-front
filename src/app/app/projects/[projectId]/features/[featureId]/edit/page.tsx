@@ -1,3 +1,4 @@
+// src/app/app/projects/[projectId]/features/[featureId]/edit/page.tsx
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
 
@@ -5,49 +6,60 @@ import {
   deleteFeature,
   updateFeature,
 } from "@/app/app/projects/[projectId]/features/[featureId]/edit/actions";
-import { fetchFeatureById, fetchProjectModules } from "@/lib/data";
-
+import {
+  fetchFeatureById,
+  fetchProjectStructure, // 👈 usamos structure
+} from "@/lib/data";
 import { getSession } from "@/lib/session";
 import type { Feature } from "@/lib/model-definitions/feature";
-import type { Module } from "@/lib/model-definitions/module";
 import { RoutesEnum } from "@/lib/utils";
 import { FeatureForm } from "@/ui/components/projects/FeatureForm.client";
 import { handlePageError } from "@/lib/handle-page-error";
+import type { StructureModuleNode } from "@/lib/definitions";
 
 type Params = { projectId: string; featureId: string };
 
 export default async function EditFeaturePage({
   params,
 }: {
-  params: Params;
+  // 👇 Next 15
+  params: Promise<Params>;
 }) {
   const session = await getSession();
   if (!session?.token) redirect(RoutesEnum.LOGIN);
 
   const t = await getTranslations("app.projects.feature.edit");
-  const { projectId, featureId } = params;
+  const { projectId, featureId } = await params;
 
   let feature: Feature | null = null;
   try {
     feature = await fetchFeatureById(session.token, featureId);
   } catch (error) {
-  await handlePageError(error);
-}
+    await handlePageError(error);
+  }
   if (!feature) notFound();
 
-  let modulesRes: Awaited<
-    ReturnType<typeof fetchProjectModules>
-  >;
+  // Aplanamos structure → opciones de módulos con prettyPath
+  let modules: { id: string; name: string; path: string | null }[] = [];
   try {
-    modulesRes = await fetchProjectModules(session.token, projectId, {
-      limit: 500,
-      sort: "-updatedAt",
+    const structure = await fetchProjectStructure(session.token, projectId, {
+      limit: 100, // tu back limita a 100; si necesitas más roots, tocaría paginar en el back
+      sort: "sortOrder",
     });
-  }  catch (error) {
-  await handlePageError(error);
-}
 
-  const modules: Module[] = modulesRes!.items ?? [];
+    const flat: typeof modules = [];
+    const walk = (node: StructureModuleNode, prefix: string[]) => {
+      const pathArr = [...prefix, node.name];
+      flat.push({ id: node.id, name: node.name, path: pathArr.join(" / ") });
+      node.items
+        .filter((i): i is StructureModuleNode => i.type === "module")
+        .forEach((child) => walk(child, pathArr));
+    };
+    (structure.modules ?? []).forEach((root) => walk(root, []));
+    modules = flat;
+  } catch (error) {
+    await handlePageError(error);
+  }
 
   return (
     <div className="max-w-3xl space-y-6 p-6 md:p-10">
@@ -61,11 +73,7 @@ export default async function EditFeaturePage({
       <FeatureForm
         mode="edit"
         action={updateFeature.bind(null, projectId, featureId)}
-        modules={modules.map((module) => ({
-          id: module.id,
-          name: module.name,
-          path: module.path,
-        }))}
+        modules={modules}
         defaultValues={{
           name: feature.name,
           description: feature.description,

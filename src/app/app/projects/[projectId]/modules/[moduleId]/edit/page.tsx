@@ -1,3 +1,4 @@
+// src/app/app/projects/[projectId]/modules/[moduleId]/edit/page.tsx
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
 
@@ -5,46 +6,89 @@ import {
   deleteModule,
   updateModule,
 } from "@/app/app/projects/[projectId]/modules/[moduleId]/edit/actions";
-import { fetchModuleById, fetchProjectModules } from "@/lib/data";
+import {
+  fetchModuleById,
+  fetchProjectStructure,
+  fetchModuleStructure, // 👈 para conocer descendientes y excluirlos del selector
+} from "@/lib/data";
 import { getSession } from "@/lib/session";
 import type { Module } from "@/lib/model-definitions/module";
 import { RoutesEnum } from "@/lib/utils";
 import { ModuleForm } from "@/ui/components/projects/ModuleForm.client";
 import { handlePageError } from "@/lib/handle-page-error";
+import type { StructureModuleNode } from "@/lib/definitions";
 
 type Params = { projectId: string; moduleId: string };
 
 export default async function EditModulePage({
   params,
 }: {
-  params: Params;
+  // Next 15: params asíncrono
+  params: Promise<Params>;
 }) {
   const session = await getSession();
   if (!session?.token) redirect(RoutesEnum.LOGIN);
 
   const t = await getTranslations("app.projects.module.edit");
-  const { projectId, moduleId } = params;
+  const { projectId, moduleId } = await params;
 
+  // 1) Módulo actual (metadata)
   let currentModule: Module | null = null;
   try {
     currentModule = await fetchModuleById(session.token, moduleId);
   } catch (error) {
-  await handlePageError(error);
-}
+    await handlePageError(error);
+  }
   if (!currentModule) notFound();
 
-  let modulesRes: Awaited<
-    ReturnType<typeof fetchProjectModules>
-  >;
+  // 2) (Opcional pero recomendado) obtener el subárbol del módulo actual
+  //    para excluir el propio módulo y sus hijos del selector de "padre".
+  let descendants = new Set<string>([moduleId]);
   try {
-    modulesRes = await fetchProjectModules(session.token, projectId, {
-      limit: 500,
-    });
-  }  catch (error) {
-  await handlePageError(error);
-}
+    const { node } = await fetchModuleStructure(session.token, moduleId);
+    const walkDesc = (n: StructureModuleNode) => {
+      n.items
+        .filter((i): i is StructureModuleNode => i.type === "module")
+        .forEach((child) => {
+          descendants.add(child.id);
+          walkDesc(child);
+        });
+    };
+    walkDesc(node);
+  } catch (error) {
+    // si falla, no es crítico; solo no excluiremos descendientes
+    // (el backend debería validar de todas formas)
+  }
 
-  const moduleOptions: Module[] = modulesRes!.items ?? [];
+  // 3) Estructura completa del proyecto → aplanar a opciones con “prettyPath”
+  let parentOptions: { id: string; name: string; path: string | null }[] = [];
+  try {
+    const structure = await fetchProjectStructure(session.token, projectId, {
+      limit: 100,         // tu API lo limita a 100; si hay muchos roots, ajusta paginando en el back o añade filtro
+      sort: "sortOrder",
+    });
+
+    const flat: typeof parentOptions = [];
+    const walk = (node: StructureModuleNode, prefix: string[]) => {
+      const pathArr = [...prefix, node.name];
+      // Excluir el propio módulo y sus descendientes del selector (evita ciclos)
+      if (!descendants.has(node.id)) {
+        flat.push({
+          id: node.id,
+          name: node.name,
+          path: pathArr.join(" / "),
+        });
+      }
+      node.items
+        .filter((i): i is StructureModuleNode => i.type === "module")
+        .forEach((child) => walk(child, pathArr));
+    };
+
+    (structure.modules ?? []).forEach((root) => walk(root, []));
+    parentOptions = flat;
+  } catch (error) {
+    await handlePageError(error);
+  }
 
   return (
     <div className="max-w-3xl space-y-6 p-6 md:p-10">
@@ -63,11 +107,8 @@ export default async function EditModulePage({
           description: currentModule.description,
           parentModuleId: currentModule.parentModuleId,
         }}
-        parentOptions={moduleOptions.map((item) => ({
-          id: item.id,
-          name: item.name,
-          path: item.path,
-        }))}
+        parentOptions={parentOptions}
+        // ya filtramos el propio módulo y sus hijos, así que esto es opcional
         disabledOptionId={currentModule.id}
       />
 

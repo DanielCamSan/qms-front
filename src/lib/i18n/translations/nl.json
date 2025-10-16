@@ -311,6 +311,8 @@
       "detail": {
         "updated": "Laatste update: {date}",
         "actions": {
+          "edit": "Bewerken",
+          "delete": "Verwijderen",
           "addModule": "Module toevoegen"
         },
         "modules": {
@@ -371,6 +373,8 @@
           "root": "Hoofdmodule"
         },
         "actions": {
+          "edit": "Bewerken",
+          "delete": "Verwijderen",
           "backToParent": "Terug naar bovenliggende module",
           "addChild": "Submodule toevoegen",
           "addFeature": "Feature toevoegen"
@@ -432,6 +436,10 @@
           "project": "Project: {id}",
           "updated": "Laatste update: {date}",
           "viewModule": "Module bekijken"
+        },
+        "actions": {
+          "edit": "Bewerken",
+          "delete": "Verwijderen"
         },
         "description": {
           "title": "Beschrijving",

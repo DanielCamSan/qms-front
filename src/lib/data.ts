@@ -643,21 +643,20 @@ export async function fetchUpdateModule(
     throw error;
   }
 }
-
 export async function fetchDeleteModule(
   token: string,
   moduleId: string
-): Promise<{ ok?: boolean; deletedId?: string }> {
+): Promise<{ ok?: boolean; deletedModuleIds?: string[] }> {
   try {
     const res = await fetchWithAuth(
-      `${apiUrl}/modules/${moduleId}`,
+      `${apiUrl}/modules/${moduleId}?cascade=true&force=true`,
       { method: "DELETE" },
       token
     );
     if (!res.ok) throw res;
     return await res.json();
   } catch (error) {
-    await handleUnauthorized(error);
+    await handlePageError(error);
     throw error;
   }
 }

@@ -386,6 +386,8 @@
       "detail": {
         "updated": "Last update: {date}",
         "actions": {
+          "edit": "Edit",
+          "delete": "Delete",
           "addModule": "Add module"
         },
         "modules": {
@@ -446,6 +448,8 @@
           "root": "Root module"
         },
         "actions": {
+          "edit": "Edit",
+          "delete": "Delete",
           "backToParent": "Back to parent",
           "addChild": "Add submodule",
           "addFeature": "Add feature"
@@ -507,6 +511,10 @@
           "project": "Project: {id}",
           "updated": "Last update: {date}",
           "viewModule": "View module"
+        },
+        "actions": {
+          "edit": "Edit",
+          "delete": "Delete"
         },
         "description": {
           "title": "Description",

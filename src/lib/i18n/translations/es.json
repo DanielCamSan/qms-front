@@ -386,6 +386,8 @@
       "detail": {
         "updated": "Última actualización: {date}",
         "actions": {
+          "edit": "Editar",
+          "delete": "Eliminar",
           "addModule": "Agregar módulo"
         },
         "modules": {
@@ -446,6 +448,8 @@
           "root": "Módulo raíz"
         },
         "actions": {
+          "edit": "Editar",
+          "delete": "Eliminar",
           "backToParent": "Volver al padre",
           "addChild": "Agregar submódulo",
           "addFeature": "Agregar feature"
@@ -507,6 +511,10 @@
           "project": "Proyecto: {id}",
           "updated": "Última actualización: {date}",
           "viewModule": "Ver módulo"
+        },
+        "actions": {
+          "edit": "Editar",
+          "delete": "Eliminar"
         },
         "description": {
           "title": "Descripción",
