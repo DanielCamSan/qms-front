@@ -48,7 +48,7 @@ export default function MobileMenuDrawer({
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <DialogPanel className="w-72 max-w-full h-full bg-white shadow-xl p-6">
+            <DialogPanel className="w-72 max-w-full h-full bg-background shadow-xl p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-bold">{t("menu")}</h2>
                 <button onClick={onClose} aria-label={t("close")}>

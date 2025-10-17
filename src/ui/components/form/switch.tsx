@@ -40,7 +40,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
               {...props}
             />
             <span className="pointer-events-none absolute left-0 top-0 h-6 w-11 rounded-full bg-transparent transition-colors" />
-            <span className="pointer-events-none absolute left-[2px] top-[2px] block h-5 w-5 rounded-full bg-white shadow-lg transition-transform peer-checked:translate-x-5" />
+            <span className="pointer-events-none absolute left-[2px] top-[2px] block h-5 w-5 rounded-full bg-background shadow-lg transition-transform peer-checked:translate-x-5" />
           </div>
           {label && (
             <span className="text-sm font-medium text-gray-700">{label}</span>

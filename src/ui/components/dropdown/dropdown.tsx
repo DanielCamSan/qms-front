@@ -51,11 +51,11 @@ interface MenuProps {
 }
 
 const menuItemStyle =
-  'p-1 flex justify-between items-center bg-white w-full border-none rounded text-sm text-left leading-loose min-w-27.5 m-0 outline-none focus:bg-secondary-background focus:text-secondary-blue data-[nested]:data-[open]:not([data-focus-inside]):bg-secondary-background data-[nested]:data-[open]:not([data-focus-inside]):text-white data-[focus-inside]:data-[open]:bg-secondary-background';
+  'p-1 flex justify-between items-center bg-background w-full border-none rounded text-sm text-left leading-loose min-w-27.5 m-0 outline-none focus:bg-secondary-background focus:text-secondary-blue data-[nested]:data-[open]:not([data-focus-inside]):bg-secondary-background data-[nested]:data-[open]:not([data-focus-inside]):text-white data-[focus-inside]:data-[open]:bg-secondary-background';
 const rootMenuStyle =
-  'px-3.5 py-1.5 border border-purple text-sm bg-white rounded-md data-[open]:bg-secondary-background hover:bg-secondary-background';
+  'px-3.5 py-1.5 border border-purple text-sm bg-background rounded-md data-[open]:bg-secondary-background hover:bg-secondary-background';
 const menuStyle =
-  'bg-white border border-purple backdrop-blur-sm p-1 rounded-md shadow-lg outline-none';
+  'bg-background border border-purple backdrop-blur-sm p-1 rounded-md shadow-lg outline-none';
 
 export const MenuComponent = React.forwardRef<
   HTMLButtonElement,

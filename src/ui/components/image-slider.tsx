@@ -68,7 +68,7 @@ export function ImageSlider({ images, className }: ImageSliderProps) {
               onClick={() => setCurrentIndex(index)}
               className={cn(
                 "w-2 h-2 rounded-full transition-colors",
-                currentIndex === index ? "bg-white" : "bg-white/50"
+                currentIndex === index ? "bg-background" : "bg-background/50"
               )}
               aria-label={`Go to slide ${index + 1}`}
             />

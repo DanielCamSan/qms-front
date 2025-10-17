@@ -64,7 +64,7 @@ export function ProjectForm({
   return (
     <form
       action={dispatch}
-      className="space-y-5 rounded-2xl border bg-white p-6 shadow-sm"
+      className="space-y-5 rounded-2xl border bg-background p-6 shadow-sm"
     >
       <div className="space-y-2">
         <label
@@ -135,7 +135,7 @@ export function ProjectForm({
             id="project-status"
             name="status"
             defaultValue={defaultValues?.status ?? ProjectStatus.ACTIVE}
-            className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             {statusOptions.map((status) => (
               <option key={status} value={status}>
@@ -156,7 +156,7 @@ export function ProjectForm({
             id="project-visibility"
             name="visibility"
             defaultValue={defaultValues?.visibility ?? Visibility.PRIVATE}
-            className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             {visibilityOptions.map((visibility) => (
               <option key={visibility} value={visibility}>

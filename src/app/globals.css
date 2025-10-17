@@ -22,7 +22,7 @@
   --color-muted:       var(--color-cream-100);
   --color-muted-fg:    #4b5563;
 
-  --color-border:      #e6e1d7; /* borde tibio acorde a la crema */
+  --color-border:      #e6e1d7; 
   --color-ring:        var(--color-blue-600);
 
   /* —— ALIAS (para no romper nada de Tunubeya) —— */
@@ -47,16 +47,66 @@
 */
 @layer base {
   *, ::after, ::before, ::backdrop, ::file-selector-button { border-color: var(--color-border); }
+}:root {
+  /* Base desde tu paleta */
+  --background: var(--color-background);            /* cream-50 */
+  --foreground: var(--color-foreground);            /* #0d141c */
+
+  --muted: var(--color-muted);                      /* cream-100 */
+  --muted-foreground: var(--color-muted-fg);        /* gris medio cálido */
+
+  --card: var(--color-surface);                     /* cream-50 */
+  --card-foreground: var(--color-foreground);
+
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-foreground);
+
+  --primary: var(--color-primary);                  /* azul marca */
+  --primary-foreground: var(--color-primary-foreground); /* blanco */
+
+  --secondary: var(--color-primary-soft);           /* azul claro */
+  --secondary-foreground: var(--color-foreground);
+
+  --accent: var(--color-primary-soft);
+  --accent-foreground: var(--color-foreground);
+
+  --destructive: 0 65% 55%;                         /* rojo HSL genérico */
+  --destructive-foreground: 0 0% 100%;
+
+  --border: var(--color-border);                    /* borde tibio */
+  --input: var(--color-border);
+  --ring: var(--color-ring);
 }
-:root {
-  --background: var(--color-background);
-  --foreground: var(--color-foreground);
+
+/* Opcional: modo oscuro, si más adelante querés activarlo con una clase .dark */
+.dark {
+  --background: 222 15% 10%;
+  --foreground: 0 0% 98%;
+  --muted: 222 12% 16%;
+  --muted-foreground: 222 8% 72%;
+  --card: 222 15% 11%;
+  --card-foreground: 0 0% 98%;
+  --popover: 222 15% 11%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 220 70% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 222 12% 16%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 222 12% 16%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 222 14% 22%;
+  --input: 222 14% 22%;
+  --ring: 220 70% 55%;
 }
+
 body {
   color: var(--foreground);
-  background: #ffffff; /* si quieres 100% blanco en páginas */
+  background: hsl(var(--background)); /* usa el token, no hardcodees #fff */
   font-family: Arial, Helvetica, sans-serif;
 }
+
 
 .ProseMirror-focused {
   outline-style: none;

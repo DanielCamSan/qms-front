@@ -78,7 +78,7 @@ const FeatureSection = ({
                 className="rounded-lg object-contain"
               />
             ) : (
-              <div className="w-32 h-32 bg-white rounded-full border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-muted-fg)]">
+              <div className="w-32 h-32 bg-background rounded-full border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-muted-fg)]">
                 No Image
               </div>
             )}

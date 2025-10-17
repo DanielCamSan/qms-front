@@ -20,7 +20,7 @@ export default function ButtonGroup({
             'px-4 py-2 text-sm',
             button.name === selected
               ? 'bg-purple/20 hover:bg-purple/20 text-purple-dark font-bold'
-              : 'bg-white text-gray-700'
+              : 'bg-background text-gray-700'
           )}
         >
           {button.label}

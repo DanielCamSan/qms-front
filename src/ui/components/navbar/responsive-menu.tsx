@@ -82,6 +82,7 @@ export default function ResponsiveMenu({
               {closeButton && (
                 <Button
                   variant="secondary"
+                  className="bg-white"
                   size="icon"
                   onClick={() => setIsOpen(false)}
                 >

@@ -9,7 +9,7 @@ export default function ProjectsLoading() {
         {Array.from({ length: 3 }).map((_, idx) => (
           <div
             key={idx}
-            className="rounded-xl border bg-white p-4 animate-pulse"
+            className="rounded-xl border bg-background p-4 animate-pulse"
           >
             <div className="h-4 w-1/2 rounded bg-muted" />
             <div className="mt-2 h-3 w-1/3 rounded bg-muted/70" />

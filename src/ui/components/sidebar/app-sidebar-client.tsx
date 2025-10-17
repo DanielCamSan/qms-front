@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FolderTree, Home, LogOut, Settings } from 'lucide-react';
+import { FolderTree, Home, Settings } from 'lucide-react';
 
 import LogoutButton from '@/ui/components/auth/logout-button';
 
@@ -27,24 +27,10 @@ export default function AppSidebarClient({
   if (footerOnly) {
     return (
       <div className="mt-auto space-y-2 px-2">
-        {/* Theme */}
-        {/* <button
-          onClick={toggleTheme}
-          className="w-full flex items-center justify-between
-                     text-sm px-2 py-2 rounded-md
-                     hover:bg-[color:var(--color-cream-100)]
-                     text-[color:var(--color-foreground)]"
-        >
-          <span>{dark ? t('lightMode') : t('darkMode')}</span>
-          {dark ? <Sun size={16} /> : <Moon size={16} />}
-        </button> */}
-
-        {/* Logout: no pasamos props al componente */}
         <div className="w-full">
           <div className="w-full flex items-center gap-2 text-sm px-2 py-2 rounded-md
                           hover:bg-[color:var(--color-cream-100)]
                           text-[color:var(--color-foreground)]">
-            <LogOut size={16} className="mr-2" />
             <LogoutButton />
           </div>
         </div>

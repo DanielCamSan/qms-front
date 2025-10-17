@@ -55,7 +55,7 @@ export default async function ProjectsPage({
         </div>
         <Link
           href="/app/projects/new"
-          className="rounded-lg border bg-background px-3 py-2 text-sm transition-colors hover:bg-white"
+          className="rounded-lg border bg-background px-3 py-2 text-sm transition-colors hover:bg-background"
         >
           {t("create")}
         </Link>

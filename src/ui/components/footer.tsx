@@ -45,7 +45,7 @@ export default function Footer() {
                 <Link
                   key={alt}
                   href={href}
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-blue-500/30 transition-colors"
+                  className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-blue-500/30 transition-colors"
                 >
                   <Image src={src} alt={alt} width={24} height={24} />
                 </Link>

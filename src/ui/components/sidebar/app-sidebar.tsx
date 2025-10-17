@@ -39,8 +39,8 @@ export default async function AppSidebar() {
       <aside className="
         hidden md:flex fixed top-0 left-0 bottom-0 w-64
         flex-col justify-between
-        bg-surface border-r border-[color:var(--color-border)]
-        px-4 py-6
+        bg-white border-r border-[color:#AEC8FF]
+        px-4 py-10
       ">
         {/* Header */}
         <div className="flex items-center gap-3 px-2 pb-4">
@@ -69,7 +69,7 @@ export default async function AppSidebar() {
       {/* Mobile Drawer trigger (usa tu ResponsiveMenu) */}
       <div className="md:hidden fixed top-3 left-3 z-50">
         <ResponsiveMenu closeButton>
-          <div className="w-64 h-auto bg-surface border-r border-[color:var(--color-border)] px-4 py-6 flex flex-col">
+          <div className="w-64 h-auto bg-white px-4 py-6 flex flex-col">
             {/* Header */}
             <div className="flex items-center gap-3 px-2 pb-4">
               <div className="h-10 w-10 rounded-xl bg-primary/15

@@ -57,7 +57,7 @@ export default async function ModuleDetailPage({
   return (
     <div className="grid gap-6">
       {/* Header */}
-      <header className="rounded-xl border bg-white p-4">
+      <header className="rounded-xl border bg-background p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold">{currentModule.name}</h1>
@@ -113,7 +113,7 @@ export default async function ModuleDetailPage({
       </header>
 
       {/* Árbol expandible (módulos + features intercalados en orden) */}
-      <section className="rounded-xl border bg-white p-4">
+      <section className="rounded-xl border bg-background p-4">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-semibold">{t("children.title")}</h2>
           <div className="flex gap-3">

@@ -79,7 +79,7 @@ export function FeatureForm({
   return (
     <form
       action={dispatch}
-      className="space-y-5 rounded-2xl border bg-white p-6 shadow-sm"
+      className="space-y-5 rounded-2xl border bg-background p-6 shadow-sm"
     >
       <input
         type="hidden"
@@ -137,7 +137,7 @@ export function FeatureForm({
           name="moduleId"
           required
           defaultValue={defaultValues?.moduleId ?? ""}
-          className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="">{t("fields.module.placeholder")}</option>
           {moduleOptions.map((module) => (
@@ -165,7 +165,7 @@ export function FeatureForm({
             id="feature-status"
             name="status"
             defaultValue={defaultValues?.status ?? FeatureStatus.PENDING}
-            className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             {statusOptions.map((status) => (
               <option key={status} value={status}>
@@ -186,7 +186,7 @@ export function FeatureForm({
             id="feature-priority"
             name="priority"
             defaultValue={defaultValues?.priority ?? FeaturePriority.MEDIUM}
-            className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           >
             {priorityOptions.map((priority) => (
               <option key={priority} value={priority}>

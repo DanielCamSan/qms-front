@@ -59,7 +59,7 @@ export default function ProjectsList({ items, pagination }: Props) {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-xl border bg-white p-10 text-center">
+      <div className="flex flex-col items-center justify-center gap-3 rounded-xl border bg-background p-10 text-center">
         <p className="text-sm text-muted-foreground">{t("empty.title")}</p>
         <Link
           href="/app/projects/new"
@@ -72,7 +72,7 @@ export default function ProjectsList({ items, pagination }: Props) {
   }
 
   return (
-    <div className="rounded-xl border bg-white">
+    <div className="rounded-xl border bg-background">
       <ul className="divide-y">
         {items.map((project) => {
           const formattedUpdatedAt = format.dateTime(

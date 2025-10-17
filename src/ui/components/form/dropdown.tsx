@@ -8,7 +8,7 @@ const dropdownVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-white text-black border border-gray-300 hover:border-gray-400 focus:border-primary-orange focus:ring-2 focus:ring-primary-orange',
+          'bg-background text-black border border-gray-300 hover:border-gray-400 focus:border-primary-orange focus:ring-2 focus:ring-primary-orange',
         outline:
           'bg-transparent text-black border border-gray-300 hover:border-gray-400 focus:border-primary-orange focus:ring-2 focus:ring-primary-orange',
         error:

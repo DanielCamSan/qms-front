@@ -25,7 +25,7 @@ export const ThemeColorContext = createContext<{
     navbarColor: "#E5E8EBE6", // Color sticky navbar (sólido/translúcido)
     cardBackgroundColor: "#E5E8EB", // Fondo de cards
     contrastTextColor: "#E5E8EB", // Texto sobre navbar/card oscuros
-    darkMode : false,
+    darkMode: false,
   },
   setThemeValues: () => {},
 });
@@ -59,7 +59,23 @@ export function ThemeColorProvider({
             "--navbar-color": themeValues.navbarColor,
             "--card-bg": themeValues.cardBackgroundColor,
             "--contrast-text": themeValues.contrastTextColor,
-            "--dark-mode": themeValues.darkMode,
+
+            /* 🔗 Mapeo a los tokens que Tailwind/shadcn usan */
+            "--primary": themeValues.mainColor ?? "var(--color-primary)",
+            "--primary-foreground": "white",
+            "--secondary":
+              themeValues.secondaryColor ?? "var(--color-primary-soft)",
+            "--secondary-foreground": "var(--color-foreground)",
+            "--background":
+              themeValues.backgroundColor ?? "var(--color-background)",
+            "--foreground": themeValues.textColor ?? "var(--color-foreground)",
+            "--card": themeValues.cardBackgroundColor ?? "var(--color-surface)",
+            "--card-foreground":
+              themeValues.textColor ?? "var(--color-foreground)",
+            "--muted": "var(--color-muted)",
+            "--muted-foreground": "var(--color-muted-fg)",
+            "--border": "var(--color-border)",
+            "--ring": themeValues.mainColor ?? "var(--color-ring)",
           } as React.CSSProperties
         }
       >

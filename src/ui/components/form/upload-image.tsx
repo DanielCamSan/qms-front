@@ -256,7 +256,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <button
               type="button"
               onClick={closePreview}
-              className="absolute top-3 right-3 bg-white/90 hover:bg-white rounded-full p-2 shadow"
+              className="absolute top-3 right-3 bg-background/90 hover:bg-background rounded-full p-2 shadow"
               aria-label="Cerrar vista previa"
             >
               <X size={18} />
@@ -267,7 +267,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <button
                 type="button"
                 onClick={goPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow"
+                className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/90 hover:bg-background rounded-full p-2 shadow"
                 aria-label="Imagen anterior"
               >
                 <ChevronLeft size={20} />
@@ -279,7 +279,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <button
                 type="button"
                 onClick={goNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow"
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-background/90 hover:bg-background rounded-full p-2 shadow"
                 aria-label="Imagen siguiente"
               >
                 <ChevronRight size={20} />

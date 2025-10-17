@@ -15,7 +15,7 @@ export default function PopoverOptions({
   return (
       <Popover placement="bottom-end">
         <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-        <PopoverContent className="bg-white shadow-lg rounded flex flex-col gap-1 p-2 text-sm">
+        <PopoverContent className="bg-background shadow-lg rounded flex flex-col gap-1 p-2 text-sm">
           {children}
         </PopoverContent>
       </Popover>

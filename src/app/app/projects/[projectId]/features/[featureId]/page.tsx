@@ -46,7 +46,7 @@ export default async function FeatureDetailPage({
 
   return (
     <div className="grid gap-6">
-      <header className="rounded-xl border bg-white p-4">
+      <header className="rounded-xl border bg-background p-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold">{feature.name}</h1>
@@ -96,7 +96,7 @@ export default async function FeatureDetailPage({
         </div>
       </header>
 
-      <section className="rounded-xl border bg-white p-4">
+      <section className="rounded-xl border bg-background p-4">
         <h2 className="mb-2 font-semibold">{t("description.title")}</h2>
         <p className="text-sm text-muted-foreground">
           {feature.description ?? t("description.empty")}
@@ -104,7 +104,7 @@ export default async function FeatureDetailPage({
       </section>
 
       {/* Issues */}
-      <section className="rounded-xl border bg-white p-4">
+      <section className="rounded-xl border bg-background p-4">
         <h2 className="mb-2 font-semibold">{t("issues.title")}</h2>
         {feature.issueElements?.length ? (
           <ul className="space-y-2 text-sm">
@@ -129,7 +129,7 @@ export default async function FeatureDetailPage({
       </section>
 
       {/* Versiones */}
-      <section className="rounded-xl border bg-white p-4">
+      <section className="rounded-xl border bg-background p-4">
         <h2 className="mb-2 font-semibold">{t("versions.title")}</h2>
         {feature.versions?.length ? (
           <ul className="space-y-2 text-sm">

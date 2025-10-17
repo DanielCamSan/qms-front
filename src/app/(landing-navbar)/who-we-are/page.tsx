@@ -62,14 +62,14 @@ export default async function WhoWeArePage() {
       {/* MISION & VISION Section */}
       <section className="w-full flex flex-col md:flex-row mt-8 md:mt-0 min-h-[320px]">
         {/* MISION */}
-        <div className="flex-1 bg-white flex flex-col items-center justify-center py-10 px-6 md:px-12 border-b md:border-b-0 md:border-r border-[var(--color-custom-gray)]">
+        <div className="flex-1 bg-background flex flex-col items-center justify-center py-10 px-6 md:px-12 border-b md:border-b-0 md:border-r border-[var(--color-custom-gray)]">
           <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-primary-orange)] mb-4 text-center">{t('misionTitle')}</h2>
           <p className="text-[var(--color-secondary-blue)] text-base md:text-lg text-center max-w-md">
             {t('mision')}
           </p>
         </div>
         {/* VISION */}
-        <div className="flex-1 bg-white flex flex-col items-center justify-center py-10 px-6 md:px-12">
+        <div className="flex-1 bg-background flex flex-col items-center justify-center py-10 px-6 md:px-12">
           <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-purple)] mb-4 text-center">{t('visionTitle')}</h2>
           <p className="text-[var(--color-secondary-blue)] text-base md:text-lg text-center max-w-md">
             {t('vision')}

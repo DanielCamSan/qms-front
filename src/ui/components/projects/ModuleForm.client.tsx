@@ -74,7 +74,7 @@ export function ModuleForm({
   return (
     <form
       action={dispatch}
-      className="space-y-5 rounded-2xl border bg-white p-6 shadow-sm"
+      className="space-y-5 rounded-2xl border bg-background p-6 shadow-sm"
     >
       <div className="space-y-2">
         <label
@@ -125,7 +125,7 @@ export function ModuleForm({
           id="module-parent"
           name="parentModuleId"
           defaultValue={defaultValues?.parentModuleId ?? ""}
-          className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="">{t("fields.parent.rootOption")}</option>
           {options.map((option) => (

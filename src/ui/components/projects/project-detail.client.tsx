@@ -44,7 +44,7 @@ export default function ProjectDetailClient({
   const hasAny = (structureModules?.length ?? 0) > 0;
 
   return (
-    <section className="rounded-xl border bg-white p-4">
+    <section className="rounded-xl border bg-background p-4">
       <div className="mb-3 flex items-center justify-between">
         <h2 className="font-semibold">{t("modules.title")}</h2>
 

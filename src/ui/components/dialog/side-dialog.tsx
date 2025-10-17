@@ -26,7 +26,7 @@ export default function SideDialog({
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
-        className="bg-white rounded-xl p-6 space-y-2 min-w-[300px] h-full overflow-y-auto flex flex-col justify-between"
+        className="bg-background rounded-xl p-6 space-y-2 min-w-[300px] h-full overflow-y-auto flex flex-col justify-between"
         layoutClassName="bg-black/60 grid place-items-end h-full backdrop-blur-sm"
         type="side"
       >

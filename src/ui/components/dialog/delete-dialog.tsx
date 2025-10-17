@@ -38,7 +38,7 @@ export default function DeleteDialog({
           {triggerLabel}
         </button>
       </DialogTrigger>
-      <DialogContent className="bg-white rounded-xl p-6 m-4 space-y-8">
+      <DialogContent className="bg-background rounded-xl p-6 m-4 space-y-8">
         <DialogHeading className="text-xl font-bold">
           {dialogTitle}
         </DialogHeading>
